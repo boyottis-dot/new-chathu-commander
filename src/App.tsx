@@ -10,6 +10,9 @@ import FeedPosts from "@/pages/admin/feed/FeedPosts";
 import FeedAlgorithm from "@/pages/admin/feed/FeedAlgorithm";
 import FeedStories from "@/pages/admin/feed/FeedStories";
 import FeedOffers from "@/pages/admin/feed/FeedOffers";
+import HomepageSections from "@/pages/admin/shop/HomepageSections";
+import CategoryManager from "@/pages/admin/shop/CategoryManager";
+import CollectionManager from "@/pages/admin/shop/CollectionManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,9 +32,9 @@ const App = () => (
             <Route path="/feed/stories" element={<FeedStories />} />
             <Route path="/feed/offers" element={<FeedOffers />} />
             {/* Shop Manager */}
-            <Route path="/shop/homepage" element={<Placeholder />} />
-            <Route path="/shop/categories" element={<Placeholder />} />
-            <Route path="/shop/collections" element={<Placeholder />} />
+            <Route path="/shop/homepage" element={<HomepageSections />} />
+            <Route path="/shop/categories" element={<CategoryManager />} />
+            <Route path="/shop/collections" element={<CollectionManager />} />
             {/* Vendor Manager */}
             <Route path="/vendors" element={<Placeholder />} />
             <Route path="/vendors/create" element={<Placeholder />} />
