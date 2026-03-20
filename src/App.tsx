@@ -32,9 +32,9 @@ const App = () => (
             <Route path="/feed/stories" element={<FeedStories />} />
             <Route path="/feed/offers" element={<FeedOffers />} />
             {/* Shop Manager */}
-            <Route path="/shop/homepage" element={<Placeholder />} />
-            <Route path="/shop/categories" element={<Placeholder />} />
-            <Route path="/shop/collections" element={<Placeholder />} />
+            <Route path="/shop/homepage" element={<HomepageSections />} />
+            <Route path="/shop/categories" element={<CategoryManager />} />
+            <Route path="/shop/collections" element={<CollectionManager />} />
             {/* Vendor Manager */}
             <Route path="/vendors" element={<Placeholder />} />
             <Route path="/vendors/create" element={<Placeholder />} />
