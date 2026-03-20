@@ -6,6 +6,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import Overview from "@/pages/admin/Overview";
 import Placeholder from "@/pages/admin/Placeholder";
+import FeedPosts from "@/pages/admin/feed/FeedPosts";
+import FeedAlgorithm from "@/pages/admin/feed/FeedAlgorithm";
+import FeedStories from "@/pages/admin/feed/FeedStories";
+import FeedOffers from "@/pages/admin/feed/FeedOffers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
