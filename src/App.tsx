@@ -6,6 +6,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import Overview from "@/pages/admin/Overview";
 import Placeholder from "@/pages/admin/Placeholder";
+import FeedPosts from "@/pages/admin/feed/FeedPosts";
+import FeedAlgorithm from "@/pages/admin/feed/FeedAlgorithm";
+import FeedStories from "@/pages/admin/feed/FeedStories";
+import FeedOffers from "@/pages/admin/feed/FeedOffers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,10 +24,10 @@ const App = () => (
           <Route element={<AdminLayout />}>
             <Route path="/" element={<Overview />} />
             {/* Feed Manager */}
-            <Route path="/feed/posts" element={<Placeholder />} />
-            <Route path="/feed/algorithm" element={<Placeholder />} />
-            <Route path="/feed/stories" element={<Placeholder />} />
-            <Route path="/feed/offers" element={<Placeholder />} />
+            <Route path="/feed/posts" element={<FeedPosts />} />
+            <Route path="/feed/algorithm" element={<FeedAlgorithm />} />
+            <Route path="/feed/stories" element={<FeedStories />} />
+            <Route path="/feed/offers" element={<FeedOffers />} />
             {/* Shop Manager */}
             <Route path="/shop/homepage" element={<Placeholder />} />
             <Route path="/shop/categories" element={<Placeholder />} />
