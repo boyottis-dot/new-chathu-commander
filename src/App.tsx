@@ -43,14 +43,14 @@ const App = () => (
             <Route path="/shop/categories" element={<CategoryManager />} />
             <Route path="/shop/collections" element={<CollectionManager />} />
             {/* Vendor Manager */}
-            <Route path="/vendors" element={<Placeholder />} />
-            <Route path="/vendors/create" element={<Placeholder />} />
-            <Route path="/vendors/performance" element={<Placeholder />} />
-            <Route path="/vendors/payouts" element={<Placeholder />} />
+            <Route path="/vendors" element={<AllVendors />} />
+            <Route path="/vendors/create" element={<CreateVendor />} />
+            <Route path="/vendors/performance" element={<VendorPerformance />} />
+            <Route path="/vendors/payouts" element={<VendorPayouts />} />
             {/* Customer Manager */}
-            <Route path="/customers" element={<Placeholder />} />
-            <Route path="/customers/segments" element={<Placeholder />} />
-            <Route path="/customers/promos" element={<Placeholder />} />
+            <Route path="/customers" element={<AllCustomers />} />
+            <Route path="/customers/segments" element={<CustomerSegments />} />
+            <Route path="/customers/promos" element={<GiftCardsPromos />} />
             {/* Product Manager */}
             <Route path="/products/approvals" element={<Placeholder />} />
             <Route path="/products" element={<Placeholder />} />
