@@ -13,6 +13,13 @@ import FeedOffers from "@/pages/admin/feed/FeedOffers";
 import HomepageSections from "@/pages/admin/shop/HomepageSections";
 import CategoryManager from "@/pages/admin/shop/CategoryManager";
 import CollectionManager from "@/pages/admin/shop/CollectionManager";
+import AllVendors from "@/pages/admin/vendors/AllVendors";
+import CreateVendor from "@/pages/admin/vendors/CreateVendor";
+import VendorPerformance from "@/pages/admin/vendors/VendorPerformance";
+import VendorPayouts from "@/pages/admin/vendors/VendorPayouts";
+import AllCustomers from "@/pages/admin/customers/AllCustomers";
+import CustomerSegments from "@/pages/admin/customers/CustomerSegments";
+import GiftCardsPromos from "@/pages/admin/customers/GiftCardsPromos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
