@@ -20,6 +20,14 @@ import VendorPayouts from "@/pages/admin/vendors/VendorPayouts";
 import AllCustomers from "@/pages/admin/customers/AllCustomers";
 import CustomerSegments from "@/pages/admin/customers/CustomerSegments";
 import GiftCardsPromos from "@/pages/admin/customers/GiftCardsPromos";
+import ProductApprovals from "@/pages/admin/products/ProductApprovals";
+import AllProducts from "@/pages/admin/products/AllProducts";
+import FeaturedProducts from "@/pages/admin/products/FeaturedProducts";
+import AllOrders from "@/pages/admin/orders/AllOrders";
+import DeliveryManager from "@/pages/admin/orders/DeliveryManager";
+import RevenueDashboard from "@/pages/admin/finance/RevenueDashboard";
+import EscrowManager from "@/pages/admin/finance/EscrowManager";
+import PayoutManager from "@/pages/admin/finance/PayoutManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,16 +60,16 @@ const App = () => (
             <Route path="/customers/segments" element={<CustomerSegments />} />
             <Route path="/customers/promos" element={<GiftCardsPromos />} />
             {/* Product Manager */}
-            <Route path="/products/approvals" element={<Placeholder />} />
-            <Route path="/products" element={<Placeholder />} />
-            <Route path="/products/featured" element={<Placeholder />} />
+            <Route path="/products/approvals" element={<ProductApprovals />} />
+            <Route path="/products" element={<AllProducts />} />
+            <Route path="/products/featured" element={<FeaturedProducts />} />
             {/* Order Manager */}
-            <Route path="/orders" element={<Placeholder />} />
-            <Route path="/orders/delivery" element={<Placeholder />} />
+            <Route path="/orders" element={<AllOrders />} />
+            <Route path="/orders/delivery" element={<DeliveryManager />} />
             {/* Financial Manager */}
-            <Route path="/finance/revenue" element={<Placeholder />} />
-            <Route path="/finance/escrow" element={<Placeholder />} />
-            <Route path="/finance/payouts" element={<Placeholder />} />
+            <Route path="/finance/revenue" element={<RevenueDashboard />} />
+            <Route path="/finance/escrow" element={<EscrowManager />} />
+            <Route path="/finance/payouts" element={<PayoutManager />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<Placeholder />} />
             {/* Reviews & Reports */}
