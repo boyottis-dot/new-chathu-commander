@@ -136,11 +136,23 @@ const DeliveryManager = () => {
       {/* Tracking Number Dialog */}
       <Dialog open={!!trackingEdit} onOpenChange={() => setTrackingEdit(null)}>
         <DialogContent className="bg-card border-border">
-          <DialogHeader><DialogTitle className="text-foreground">DHL Tracking Number</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle className="text-foreground">Tracking Details</DialogTitle></DialogHeader>
           {trackingEdit && (
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">Order: <span className="text-foreground">{trackingEdit.order.id}</span></p>
-              <Input value={trackingEdit.tracking} onChange={e => setTrackingEdit({ ...trackingEdit, tracking: e.target.value })} placeholder="Enter DHL tracking number..." className="bg-secondary border-border" />
+              <div className="space-y-1">
+                <Label className="text-xs">Courier</Label>
+                <Select value={trackingEdit.courier} onValueChange={v => setTrackingEdit({ ...trackingEdit, courier: v })}>
+                  <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {activeCouriers.map(c => <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Tracking Number</Label>
+                <Input value={trackingEdit.tracking} onChange={e => setTrackingEdit({ ...trackingEdit, tracking: e.target.value })} placeholder="Enter tracking number..." className="bg-secondary border-border" />
+              </div>
             </div>
           )}
           <DialogFooter>
