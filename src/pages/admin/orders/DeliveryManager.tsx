@@ -61,16 +61,17 @@ const DeliveryManager = () => {
 
   const renderTable = (list: Order[]) => (
     <Table>
-      <TableHeader>
-        <TableRow className="border-border">
-          <TableHead>Order ID</TableHead>
-          <TableHead>Customer</TableHead>
-          <TableHead>Destination</TableHead>
-          <TableHead>Delivery Status</TableHead>
-          <TableHead>Tracking</TableHead>
-          <TableHead>Est. Delivery</TableHead>
-          <TableHead>Actual</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+       <TableHeader>
+         <TableRow className="border-border">
+           <TableHead>Order ID</TableHead>
+           <TableHead>Customer</TableHead>
+           <TableHead>Destination</TableHead>
+           <TableHead>Courier</TableHead>
+           <TableHead>Delivery Status</TableHead>
+           <TableHead>Tracking</TableHead>
+           <TableHead>Est. Delivery</TableHead>
+           <TableHead>Actual</TableHead>
+           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
