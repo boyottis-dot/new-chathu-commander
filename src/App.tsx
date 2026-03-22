@@ -88,6 +88,10 @@ const App = () => (
             <Route path="/finance/payouts" element={<PayoutManager />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
+            {/* Referral Manager */}
+            <Route path="/referrals/programs" element={<ReferralPrograms />} />
+            <Route path="/referrals/links" element={<ReferralLinks />} />
+            <Route path="/referrals/analytics" element={<ReferralAnalytics />} />
             {/* Reviews & Reports */}
             <Route path="/reviews/products" element={<ProductReviews />} />
             <Route path="/reviews/vendors" element={<VendorReviews />} />

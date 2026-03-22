@@ -98,6 +98,15 @@ const navSections: NavSection[] = [
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
   },
   {
+    title: "Referral Manager",
+    icon: Gift,
+    items: [
+      { title: "Programs", url: "/referrals/programs", icon: Gift },
+      { title: "Links", url: "/referrals/links", icon: Link2 },
+      { title: "Analytics", url: "/referrals/analytics", icon: PieChart },
+    ],
+  },
+  {
     title: "Reviews & Reports",
     icon: Star,
     items: [
