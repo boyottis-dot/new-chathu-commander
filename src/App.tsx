@@ -28,6 +28,10 @@ import DeliveryManager from "@/pages/admin/orders/DeliveryManager";
 import RevenueDashboard from "@/pages/admin/finance/RevenueDashboard";
 import EscrowManager from "@/pages/admin/finance/EscrowManager";
 import PayoutManager from "@/pages/admin/finance/PayoutManager";
+import RefundManager from "@/pages/admin/refunds/RefundManager";
+import ProductReviews from "@/pages/admin/reviews/ProductReviews";
+import VendorReviews from "@/pages/admin/reviews/VendorReviews";
+import ReportedContent from "@/pages/admin/reviews/ReportedContent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -71,11 +75,11 @@ const App = () => (
             <Route path="/finance/escrow" element={<EscrowManager />} />
             <Route path="/finance/payouts" element={<PayoutManager />} />
             {/* Refund Manager */}
-            <Route path="/refunds" element={<Placeholder />} />
+            <Route path="/refunds" element={<RefundManager />} />
             {/* Reviews & Reports */}
-            <Route path="/reviews/products" element={<Placeholder />} />
-            <Route path="/reviews/vendors" element={<Placeholder />} />
-            <Route path="/reviews/reports" element={<Placeholder />} />
+            <Route path="/reviews/products" element={<ProductReviews />} />
+            <Route path="/reviews/vendors" element={<VendorReviews />} />
+            <Route path="/reviews/reports" element={<ReportedContent />} />
             {/* Notifications */}
             <Route path="/notifications/send" element={<Placeholder />} />
             <Route path="/notifications/history" element={<Placeholder />} />
