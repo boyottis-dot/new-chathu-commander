@@ -107,6 +107,10 @@ export default function PlatformSettings() {
               <Label>Min Order Amount ({settings.currency})</Label>
               <Input type="number" value={settings.minOrderAmount} onChange={e => update("minOrderAmount", e.target.value)} className="bg-secondary border-border" />
             </div>
+            <div className="space-y-2">
+              <Label>Min Vendor Withdrawal ({settings.currency})</Label>
+              <Input type="number" value={settings.minWithdrawalAmount} onChange={e => update("minWithdrawalAmount", e.target.value)} className="bg-secondary border-border" />
+            </div>
           </CardContent>
         </Card>
 
