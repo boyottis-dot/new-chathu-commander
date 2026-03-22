@@ -59,6 +59,10 @@ export default function PlatformSettings() {
               <Input value={settings.platformName} onChange={e => update("platformName", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
+              <Label>Platform Logo URL</Label>
+              <Input placeholder="https://example.com/logo.png" value={settings.platformLogo} onChange={e => update("platformLogo", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
               <Label>Currency</Label>
               <Select value={settings.currency} onValueChange={v => update("currency", v)}>
                 <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
@@ -66,6 +70,17 @@ export default function PlatformSettings() {
                   <SelectItem value="MWK">MWK - Malawian Kwacha</SelectItem>
                   <SelectItem value="USD">USD - US Dollar</SelectItem>
                   <SelectItem value="ZAR">ZAR - South African Rand</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Default Location Mode</Label>
+              <p className="text-xs text-muted-foreground">For users whose location can't be detected</p>
+              <Select value={settings.defaultLocationMode} onValueChange={v => update("defaultLocationMode", v)}>
+                <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="LOCAL">Local</SelectItem>
+                  <SelectItem value="INTERNATIONAL">International</SelectItem>
                 </SelectContent>
               </Select>
             </div>
