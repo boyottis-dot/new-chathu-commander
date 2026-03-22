@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import Overview from "@/pages/admin/Overview";
-import Placeholder from "@/pages/admin/Placeholder";
+// Phase 11 & 12 imports below
 import FeedPosts from "@/pages/admin/feed/FeedPosts";
 import FeedAlgorithm from "@/pages/admin/feed/FeedAlgorithm";
 import FeedStories from "@/pages/admin/feed/FeedStories";
@@ -32,6 +32,13 @@ import RefundManager from "@/pages/admin/refunds/RefundManager";
 import ProductReviews from "@/pages/admin/reviews/ProductReviews";
 import VendorReviews from "@/pages/admin/reviews/VendorReviews";
 import ReportedContent from "@/pages/admin/reviews/ReportedContent";
+import SendNotification from "@/pages/admin/notifications/SendNotification";
+import NotificationHistory from "@/pages/admin/notifications/NotificationHistory";
+import AutomationRules from "@/pages/admin/notifications/AutomationRules";
+import PlatformSettings from "@/pages/admin/settings/PlatformSettings";
+import AdminAccounts from "@/pages/admin/settings/AdminAccounts";
+import ApiIntegrations from "@/pages/admin/settings/ApiIntegrations";
+import AuditLog from "@/pages/admin/settings/AuditLog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -81,14 +88,14 @@ const App = () => (
             <Route path="/reviews/vendors" element={<VendorReviews />} />
             <Route path="/reviews/reports" element={<ReportedContent />} />
             {/* Notifications */}
-            <Route path="/notifications/send" element={<Placeholder />} />
-            <Route path="/notifications/history" element={<Placeholder />} />
-            <Route path="/notifications/rules" element={<Placeholder />} />
+            <Route path="/notifications/send" element={<SendNotification />} />
+            <Route path="/notifications/history" element={<NotificationHistory />} />
+            <Route path="/notifications/rules" element={<AutomationRules />} />
             {/* Settings */}
-            <Route path="/settings/platform" element={<Placeholder />} />
-            <Route path="/settings/admins" element={<Placeholder />} />
-            <Route path="/settings/integrations" element={<Placeholder />} />
-            <Route path="/settings/audit" element={<Placeholder />} />
+            <Route path="/settings/platform" element={<PlatformSettings />} />
+            <Route path="/settings/admins" element={<AdminAccounts />} />
+            <Route path="/settings/integrations" element={<ApiIntegrations />} />
+            <Route path="/settings/audit" element={<AuditLog />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
