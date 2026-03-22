@@ -18,6 +18,9 @@ const moreNav = [
   { icon: Rss, label: "Feed", path: "/feed/posts" },
   { icon: Store, label: "Shop", path: "/shop/homepage" },
   { icon: Users, label: "Vendors", path: "/vendors" },
+  { icon: Users, label: "Customers", path: "/customers" },
+  { icon: RotateCcw, label: "Refunds", path: "/refunds" },
+  { icon: Star, label: "Reviews", path: "/reviews/products" },
   { icon: Bell, label: "Notifications", path: "/notifications/send" },
   { icon: Settings, label: "Settings", path: "/settings/platform" },
 ];

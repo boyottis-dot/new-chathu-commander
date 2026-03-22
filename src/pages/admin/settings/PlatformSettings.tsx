@@ -12,12 +12,17 @@ import { toast } from "sonner";
 export default function PlatformSettings() {
   const [settings, setSettings] = useState({
     platformName: "Chathu",
+    platformLogo: "",
     currency: "MWK",
+    defaultLocationMode: "LOCAL",
     commissionRate: "15",
     deliveryFeeLocal: "2500",
     deliveryFeeInternational: "15000",
+    deliveryPerKmRate: "150",
+    deliveryFlatRateByCity: "2000",
     returnWindow: "7",
-    escrowDelay: "3",
+    escrowDelay: "48",
+    minWithdrawalAmount: "5000",
     maintenanceMode: false,
     vendorAutoApproval: false,
     productAutoApproval: false,

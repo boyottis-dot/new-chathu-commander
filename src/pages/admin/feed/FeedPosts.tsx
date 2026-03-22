@@ -97,6 +97,8 @@ export default function FeedPosts() {
                   <SelectItem value="reported">Reported Only</SelectItem>
                 </SelectContent>
               </Select>
+              <Input type="date" className="w-[140px] h-8 text-xs bg-secondary border-border" placeholder="From date" />
+              <Input type="date" className="w-[140px] h-8 text-xs bg-secondary border-border" placeholder="To date" />
               {hasActiveFilters && (
                 <Button variant="ghost" size="sm" className="h-8 text-xs gap-1 text-muted-foreground" onClick={() => { setAuthorFilter("all"); setStatusFilter("all"); setReportedFilter("all"); }}>
                   <X className="h-3 w-3" /> Clear
