@@ -39,6 +39,10 @@ import PlatformSettings from "@/pages/admin/settings/PlatformSettings";
 import AdminAccounts from "@/pages/admin/settings/AdminAccounts";
 import ApiIntegrations from "@/pages/admin/settings/ApiIntegrations";
 import AuditLog from "@/pages/admin/settings/AuditLog";
+import CourierNetworks from "@/pages/admin/orders/CourierNetworks";
+import ReferralPrograms from "@/pages/admin/referrals/ReferralPrograms";
+import ReferralLinks from "@/pages/admin/referrals/ReferralLinks";
+import ReferralAnalytics from "@/pages/admin/referrals/ReferralAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
