@@ -152,7 +152,7 @@ export default function PlatformSettings() {
               <Input type="number" value={settings.returnWindow} onChange={e => update("returnWindow", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
-              <Label>Escrow Release Delay (days)</Label>
+              <Label>Escrow Release Delay (hours)</Label>
               <Input type="number" value={settings.escrowDelay} onChange={e => update("escrowDelay", e.target.value)} className="bg-secondary border-border" />
             </div>
           </CardContent>
