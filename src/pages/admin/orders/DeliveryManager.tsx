@@ -95,7 +95,7 @@ const DeliveryManager = () => {
           </TableRow>
         ))}
         {filterBySearch(list).length === 0 && (
-          <TableRow><TableCell colSpan={8} className="text-center py-6 text-muted-foreground">No orders found</TableCell></TableRow>
+          <TableRow><TableCell colSpan={9} className="text-center py-6 text-muted-foreground">No orders found</TableCell></TableRow>
         )}
       </TableBody>
     </Table>
