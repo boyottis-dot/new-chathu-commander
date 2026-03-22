@@ -86,9 +86,10 @@ export default function FeedOffers() {
                 <Input type="datetime-local" className="bg-secondary border-border h-9" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Offer Image</Label>
+                <Label className="text-xs">Offer Image URL</Label>
+                <Input placeholder="https://example.com/image.jpg" className="bg-secondary border-border h-9" />
                 <div className="border border-dashed border-border rounded-lg h-24 flex items-center justify-center text-xs text-muted-foreground cursor-pointer hover:border-primary/50 transition-colors">
-                  Click to upload image
+                  Or click to upload image
                 </div>
               </div>
               <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setDialogOpen(false)}>

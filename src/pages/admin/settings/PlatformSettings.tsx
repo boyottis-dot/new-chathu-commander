@@ -12,12 +12,17 @@ import { toast } from "sonner";
 export default function PlatformSettings() {
   const [settings, setSettings] = useState({
     platformName: "Chathu",
+    platformLogo: "",
     currency: "MWK",
+    defaultLocationMode: "LOCAL",
     commissionRate: "15",
     deliveryFeeLocal: "2500",
     deliveryFeeInternational: "15000",
+    deliveryPerKmRate: "150",
+    deliveryFlatRateByCity: "2000",
     returnWindow: "7",
-    escrowDelay: "3",
+    escrowDelay: "48",
+    minWithdrawalAmount: "5000",
     maintenanceMode: false,
     vendorAutoApproval: false,
     productAutoApproval: false,
@@ -54,6 +59,10 @@ export default function PlatformSettings() {
               <Input value={settings.platformName} onChange={e => update("platformName", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
+              <Label>Platform Logo URL</Label>
+              <Input placeholder="https://example.com/logo.png" value={settings.platformLogo} onChange={e => update("platformLogo", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
               <Label>Currency</Label>
               <Select value={settings.currency} onValueChange={v => update("currency", v)}>
                 <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
@@ -61,6 +70,17 @@ export default function PlatformSettings() {
                   <SelectItem value="MWK">MWK - Malawian Kwacha</SelectItem>
                   <SelectItem value="USD">USD - US Dollar</SelectItem>
                   <SelectItem value="ZAR">ZAR - South African Rand</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Default Location Mode</Label>
+              <p className="text-xs text-muted-foreground">For users whose location can't be detected</p>
+              <Select value={settings.defaultLocationMode} onValueChange={v => update("defaultLocationMode", v)}>
+                <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="LOCAL">Local</SelectItem>
+                  <SelectItem value="INTERNATIONAL">International</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -87,6 +107,10 @@ export default function PlatformSettings() {
               <Label>Min Order Amount ({settings.currency})</Label>
               <Input type="number" value={settings.minOrderAmount} onChange={e => update("minOrderAmount", e.target.value)} className="bg-secondary border-border" />
             </div>
+            <div className="space-y-2">
+              <Label>Min Vendor Withdrawal ({settings.currency})</Label>
+              <Input type="number" value={settings.minWithdrawalAmount} onChange={e => update("minWithdrawalAmount", e.target.value)} className="bg-secondary border-border" />
+            </div>
           </CardContent>
         </Card>
 
@@ -98,8 +122,16 @@ export default function PlatformSettings() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Local Delivery Fee ({settings.currency})</Label>
+              <Label>Local Flat Delivery Fee ({settings.currency})</Label>
               <Input type="number" value={settings.deliveryFeeLocal} onChange={e => update("deliveryFeeLocal", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
+              <Label>Per Km Rate ({settings.currency})</Label>
+              <Input type="number" value={settings.deliveryPerKmRate} onChange={e => update("deliveryPerKmRate", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
+              <Label>Flat Rate by City ({settings.currency})</Label>
+              <Input type="number" value={settings.deliveryFlatRateByCity} onChange={e => update("deliveryFlatRateByCity", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
               <Label>International Delivery Fee ({settings.currency})</Label>
@@ -120,7 +152,7 @@ export default function PlatformSettings() {
               <Input type="number" value={settings.returnWindow} onChange={e => update("returnWindow", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
-              <Label>Escrow Release Delay (days)</Label>
+              <Label>Escrow Release Delay (hours)</Label>
               <Input type="number" value={settings.escrowDelay} onChange={e => update("escrowDelay", e.target.value)} className="bg-secondary border-border" />
             </div>
           </CardContent>
