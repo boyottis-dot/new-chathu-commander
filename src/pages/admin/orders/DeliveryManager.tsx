@@ -80,6 +80,7 @@ const DeliveryManager = () => {
             <TableCell className="font-medium text-foreground">{o.id} {o.flagged && <AlertTriangle className="inline h-3 w-3 text-destructive ml-1" />}</TableCell>
             <TableCell className="text-foreground">{o.customer}</TableCell>
             <TableCell className="text-muted-foreground">{o.city}, {o.country}</TableCell>
+            <TableCell><Badge variant="outline" className="text-[10px] border-border">{o.location === "LOCAL" ? "SpeedPost MW" : "DHL Express"}</Badge></TableCell>
             <TableCell><Badge className={deliveryColors[o.deliveryStatus] || ""}>{o.deliveryStatus}</Badge></TableCell>
             <TableCell className="text-muted-foreground text-xs font-mono">{o.trackingNumber || "—"}</TableCell>
             <TableCell className="text-muted-foreground">{o.estimatedDelivery}</TableCell>
