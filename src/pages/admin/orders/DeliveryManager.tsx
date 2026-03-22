@@ -88,7 +88,7 @@ const DeliveryManager = () => {
             <TableCell>
               <div className="flex justify-end gap-1">
                 <Button size="icon" variant="ghost" onClick={() => setStatusEdit({ order: o, newStatus: o.deliveryStatus })}><Edit className="h-4 w-4" /></Button>
-                {o.location === "INTERNATIONAL" && <Button size="icon" variant="ghost" onClick={() => setTrackingEdit({ order: o, tracking: o.trackingNumber || "" })}><Truck className="h-4 w-4" /></Button>}
+                <Button size="icon" variant="ghost" onClick={() => setTrackingEdit({ order: o, tracking: o.trackingNumber || "", courier: o.location === "LOCAL" ? "SpeedPost MW" : "DHL Express" })}><Truck className="h-4 w-4" /></Button>
                 {o.deliveryStatus !== "Delivered" && <Button size="icon" variant="ghost" className="text-primary hover:text-primary" onClick={() => markDelivered(o.id)}><CheckCircle className="h-4 w-4" /></Button>}
               </div>
             </TableCell>
