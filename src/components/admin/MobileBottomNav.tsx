@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Rss, Store, Users, Package,
-  ShoppingCart, DollarSign, Bell, Settings, MoreHorizontal, RotateCcw, Star,
+  ShoppingCart, DollarSign, Bell, Settings, MoreHorizontal, RotateCcw, Star, Gift,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
