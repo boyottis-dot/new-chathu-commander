@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { allOrders, Order, orderStatusOptions } from "@/lib/mock-data-orders";
-import { Search, Eye, Edit, Flag, MessageSquare, Phone } from "lucide-react";
+import { Search, Eye, Edit, Flag, MessageSquare, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
 
 const statusColors: Record<string, string> = {
@@ -27,6 +29,10 @@ const AllOrders = () => {
   const [vendorFilter, setVendorFilter] = useState("all");
   const [detailOrder, setDetailOrder] = useState<Order | null>(null);
   const [statusEdit, setStatusEdit] = useState<{ order: Order; newStatus: string } | null>(null);
+
+  // Contact dialog state
+  const [contactDialog, setContactDialog] = useState<{ type: "vendor" | "customer"; order: Order } | null>(null);
+  const [contactMessage, setContactMessage] = useState("");
 
   const vendors = [...new Set(allOrders.map(o => o.vendor))];
 
@@ -48,6 +54,19 @@ const AllOrders = () => {
   const flagOrder = (id: string) => {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, flagged: !o.flagged } : o));
     toast.success("Order flag toggled");
+  };
+
+  const openContact = (type: "vendor" | "customer", order: Order) => {
+    const prefill = `Regarding Order ${order.id}:\nProduct: ${order.product}\nAmount: MWK ${order.amount.toLocaleString()}\nStatus: ${order.status}\n\n`;
+    setContactMessage(prefill);
+    setContactDialog({ type, order });
+  };
+
+  const sendContact = () => {
+    if (!contactDialog) return;
+    toast.success(`Message sent to ${contactDialog.type === "vendor" ? contactDialog.order.vendor : contactDialog.order.customer}`);
+    setContactDialog(null);
+    setContactMessage("");
   };
 
   return (
@@ -123,9 +142,10 @@ const AllOrders = () => {
                   <TableCell className="text-muted-foreground text-xs">{o.date}</TableCell>
                   <TableCell>
                     <div className="flex justify-end gap-1">
-                      <Button size="icon" variant="ghost" onClick={() => setDetailOrder(o)}><Eye className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" onClick={() => setStatusEdit({ order: o, newStatus: o.status })}><Edit className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" onClick={() => flagOrder(o.id)} className={o.flagged ? "text-destructive" : ""}><Flag className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => setDetailOrder(o)} title="View"><Eye className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => setStatusEdit({ order: o, newStatus: o.status })} title="Edit status"><Edit className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => openContact("vendor", o)} title="Contact vendor"><Phone className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => flagOrder(o.id)} className={o.flagged ? "text-destructive" : ""} title="Flag"><Flag className="h-4 w-4" /></Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -158,8 +178,12 @@ const AllOrders = () => {
                 <div><span className="text-muted-foreground">Delivered:</span> <span className="text-foreground">{detailOrder.actualDelivery || "—"}</span></div>
               </div>
               <div className="flex gap-2 pt-2">
-                <Button size="sm" variant="outline" className="border-border"><MessageSquare className="h-4 w-4 mr-1" /> Contact Customer</Button>
-                <Button size="sm" variant="outline" className="border-border"><Phone className="h-4 w-4 mr-1" /> Contact Vendor</Button>
+                <Button size="sm" variant="outline" className="border-border" onClick={() => openContact("customer", detailOrder)}>
+                  <MessageSquare className="h-4 w-4 mr-1" /> Contact Customer
+                </Button>
+                <Button size="sm" variant="outline" className="border-border" onClick={() => openContact("vendor", detailOrder)}>
+                  <Phone className="h-4 w-4 mr-1" /> Contact Vendor
+                </Button>
               </div>
             </div>
           )}
@@ -183,6 +207,44 @@ const AllOrders = () => {
           <DialogFooter>
             <Button variant="ghost" onClick={() => setStatusEdit(null)}>Cancel</Button>
             <Button className="bg-primary text-primary-foreground" onClick={updateStatus}>Update Status</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Contact Dialog */}
+      <Dialog open={!!contactDialog} onOpenChange={() => setContactDialog(null)}>
+        <DialogContent className="bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-foreground">
+              Contact {contactDialog?.type === "vendor" ? contactDialog.order.vendor : contactDialog?.order.customer}
+            </DialogTitle>
+          </DialogHeader>
+          {contactDialog && (
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div><span className="text-muted-foreground">Name:</span> <span className="text-foreground">{contactDialog.type === "vendor" ? contactDialog.order.vendor : contactDialog.order.customer}</span></div>
+                <div><span className="text-muted-foreground">Email:</span> <span className="text-foreground">{contactDialog.type === "vendor" ? `${contactDialog.order.vendor.toLowerCase().replace(/\s/g, "")}@vendor.mw` : contactDialog.order.customerEmail}</span></div>
+                <div><span className="text-muted-foreground">Order:</span> <span className="text-foreground">{contactDialog.order.id}</span></div>
+                <div><span className="text-muted-foreground">Status:</span> <Badge className={statusColors[contactDialog.order.status]}>{contactDialog.order.status}</Badge></div>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Subject</Label>
+                <Input defaultValue={`Order ${contactDialog.order.id} — Issue`} className="bg-secondary border-border h-9" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Message</Label>
+                <Textarea value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} className="bg-secondary border-border min-h-[120px]" />
+              </div>
+              <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                <Send className="h-3 w-3" /> Message will be sent via email and in-app notification
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setContactDialog(null)}>Cancel</Button>
+            <Button className="bg-primary text-primary-foreground gap-1.5" onClick={sendContact}>
+              <Send className="h-3.5 w-3.5" /> Send Message
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

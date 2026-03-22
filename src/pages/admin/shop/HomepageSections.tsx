@@ -183,6 +183,42 @@ export default function HomepageSections() {
 
         {/* VALUE PROPOSITIONS */}
         <TabsContent value="values" className="space-y-3">
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-muted-foreground">{vps.length} value propositions</p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"><Plus className="h-3.5 w-3.5" /> Add Value Prop</Button>
+              </DialogTrigger>
+              <DialogContent className="bg-card border-border">
+                <DialogHeader><DialogTitle>Add Value Proposition</DialogTitle></DialogHeader>
+                <div className="space-y-3">
+                  <div className="space-y-1"><Label className="text-xs">Icon (emoji)</Label><Input id="vp-icon" className="bg-secondary border-border h-9" placeholder="e.g. 🚀" /></div>
+                  <div className="space-y-1"><Label className="text-xs">Title</Label><Input id="vp-title" className="bg-secondary border-border h-9" placeholder="Feature title" /></div>
+                  <div className="space-y-1"><Label className="text-xs">Description</Label><Input id="vp-desc" className="bg-secondary border-border h-9" placeholder="Short description" /></div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Target Mode</Label>
+                    <Select defaultValue="BOTH">
+                      <SelectTrigger className="bg-secondary border-border h-9"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="LOCAL">Local</SelectItem>
+                        <SelectItem value="INTERNATIONAL">International</SelectItem>
+                        <SelectItem value="BOTH">Both</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="flex justify-end pt-2">
+                  <Button className="bg-primary text-primary-foreground" onClick={() => {
+                    const icon = (document.getElementById("vp-icon") as HTMLInputElement)?.value || "✨";
+                    const title = (document.getElementById("vp-title") as HTMLInputElement)?.value;
+                    const desc = (document.getElementById("vp-desc") as HTMLInputElement)?.value;
+                    if (!title) return;
+                    setVps(prev => [...prev, { id: `VP-${Date.now()}`, icon, title, description: desc || "", targetMode: "BOTH" }]);
+                  }}>Add</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
           <div className="grid sm:grid-cols-2 gap-3">
             {vps.map((vp) => (
               <Card key={vp.id} className="bg-card border-border">
@@ -195,7 +231,10 @@ export default function HomepageSections() {
                         <p className="text-[10px] text-muted-foreground">{vp.description}</p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" className="h-7 w-7"><Pencil className="h-3 w-3" /></Button>
+                    <div className="flex gap-0.5">
+                      <Button variant="ghost" size="icon" className="h-7 w-7"><Pencil className="h-3 w-3" /></Button>
+                      <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => setVps(prev => prev.filter(v => v.id !== vp.id))}><Trash2 className="h-3 w-3" /></Button>
+                    </div>
                   </div>
                   {targetBadge(vp.targetMode)}
                 </CardContent>
