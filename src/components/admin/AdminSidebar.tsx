@@ -4,7 +4,7 @@ import {
   ChevronDown, FileText, Sliders, BookOpen, Gift, Truck,
   PiggyBank, CreditCard, MessageSquare, Flag, Send, History,
   Zap, Shield, Plug, ClipboardList, ImageIcon, Layers, UserPlus,
-  BarChart3, Wallet, TrendingUp, Tags, Award
+  BarChart3, Wallet, TrendingUp, Tags, Award, Network, Link2, PieChart,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -80,6 +80,7 @@ const navSections: NavSection[] = [
     items: [
       { title: "All Orders", url: "/orders", icon: ShoppingCart },
       { title: "Delivery", url: "/orders/delivery", icon: Truck },
+      { title: "Courier Networks", url: "/orders/couriers", icon: Network },
     ],
   },
   {
@@ -95,6 +96,15 @@ const navSections: NavSection[] = [
     title: "Refund Manager",
     icon: RotateCcw,
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
+  },
+  {
+    title: "Referral Manager",
+    icon: Gift,
+    items: [
+      { title: "Programs", url: "/referrals/programs", icon: Gift },
+      { title: "Links", url: "/referrals/links", icon: Link2 },
+      { title: "Analytics", url: "/referrals/analytics", icon: PieChart },
+    ],
   },
   {
     title: "Reviews & Reports",

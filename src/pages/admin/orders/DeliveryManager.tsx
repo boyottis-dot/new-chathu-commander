@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { allOrders, Order, deliveryStatusOptions } from "@/lib/mock-data-orders";
+import { couriers } from "@/lib/mock-data-referrals";
 import { Truck, Globe, MapPin, AlertTriangle, CheckCircle, Search, Edit } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -25,8 +27,10 @@ const DeliveryManager = () => {
   const shippedOrders = allOrders.filter(o => !["Pending", "Cancelled", "Refunded"].includes(o.status));
   const [orders, setOrders] = useState<Order[]>(shippedOrders);
   const [search, setSearch] = useState("");
-  const [trackingEdit, setTrackingEdit] = useState<{ order: Order; tracking: string } | null>(null);
+  const [trackingEdit, setTrackingEdit] = useState<{ order: Order; tracking: string; courier: string } | null>(null);
   const [statusEdit, setStatusEdit] = useState<{ order: Order; newStatus: string } | null>(null);
+
+  const activeCouriers = couriers.filter(c => c.status === "active");
 
   const localOrders = orders.filter(o => o.location === "LOCAL");
   const intlOrders = orders.filter(o => o.location === "INTERNATIONAL");
@@ -57,16 +61,17 @@ const DeliveryManager = () => {
 
   const renderTable = (list: Order[]) => (
     <Table>
-      <TableHeader>
-        <TableRow className="border-border">
-          <TableHead>Order ID</TableHead>
-          <TableHead>Customer</TableHead>
-          <TableHead>Destination</TableHead>
-          <TableHead>Delivery Status</TableHead>
-          <TableHead>Tracking</TableHead>
-          <TableHead>Est. Delivery</TableHead>
-          <TableHead>Actual</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+       <TableHeader>
+         <TableRow className="border-border">
+           <TableHead>Order ID</TableHead>
+           <TableHead>Customer</TableHead>
+           <TableHead>Destination</TableHead>
+           <TableHead>Courier</TableHead>
+           <TableHead>Delivery Status</TableHead>
+           <TableHead>Tracking</TableHead>
+           <TableHead>Est. Delivery</TableHead>
+           <TableHead>Actual</TableHead>
+           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -75,6 +80,7 @@ const DeliveryManager = () => {
             <TableCell className="font-medium text-foreground">{o.id} {o.flagged && <AlertTriangle className="inline h-3 w-3 text-destructive ml-1" />}</TableCell>
             <TableCell className="text-foreground">{o.customer}</TableCell>
             <TableCell className="text-muted-foreground">{o.city}, {o.country}</TableCell>
+            <TableCell><Badge variant="outline" className="text-[10px] border-border">{o.location === "LOCAL" ? "SpeedPost MW" : "DHL Express"}</Badge></TableCell>
             <TableCell><Badge className={deliveryColors[o.deliveryStatus] || ""}>{o.deliveryStatus}</Badge></TableCell>
             <TableCell className="text-muted-foreground text-xs font-mono">{o.trackingNumber || "—"}</TableCell>
             <TableCell className="text-muted-foreground">{o.estimatedDelivery}</TableCell>
@@ -82,14 +88,14 @@ const DeliveryManager = () => {
             <TableCell>
               <div className="flex justify-end gap-1">
                 <Button size="icon" variant="ghost" onClick={() => setStatusEdit({ order: o, newStatus: o.deliveryStatus })}><Edit className="h-4 w-4" /></Button>
-                {o.location === "INTERNATIONAL" && <Button size="icon" variant="ghost" onClick={() => setTrackingEdit({ order: o, tracking: o.trackingNumber || "" })}><Truck className="h-4 w-4" /></Button>}
+                <Button size="icon" variant="ghost" onClick={() => setTrackingEdit({ order: o, tracking: o.trackingNumber || "", courier: o.location === "LOCAL" ? "SpeedPost MW" : "DHL Express" })}><Truck className="h-4 w-4" /></Button>
                 {o.deliveryStatus !== "Delivered" && <Button size="icon" variant="ghost" className="text-primary hover:text-primary" onClick={() => markDelivered(o.id)}><CheckCircle className="h-4 w-4" /></Button>}
               </div>
             </TableCell>
           </TableRow>
         ))}
         {filterBySearch(list).length === 0 && (
-          <TableRow><TableCell colSpan={8} className="text-center py-6 text-muted-foreground">No orders found</TableCell></TableRow>
+          <TableRow><TableCell colSpan={9} className="text-center py-6 text-muted-foreground">No orders found</TableCell></TableRow>
         )}
       </TableBody>
     </Table>
@@ -130,11 +136,23 @@ const DeliveryManager = () => {
       {/* Tracking Number Dialog */}
       <Dialog open={!!trackingEdit} onOpenChange={() => setTrackingEdit(null)}>
         <DialogContent className="bg-card border-border">
-          <DialogHeader><DialogTitle className="text-foreground">DHL Tracking Number</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle className="text-foreground">Tracking Details</DialogTitle></DialogHeader>
           {trackingEdit && (
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">Order: <span className="text-foreground">{trackingEdit.order.id}</span></p>
-              <Input value={trackingEdit.tracking} onChange={e => setTrackingEdit({ ...trackingEdit, tracking: e.target.value })} placeholder="Enter DHL tracking number..." className="bg-secondary border-border" />
+              <div className="space-y-1">
+                <Label className="text-xs">Courier</Label>
+                <Select value={trackingEdit.courier} onValueChange={v => setTrackingEdit({ ...trackingEdit, courier: v })}>
+                  <SelectTrigger className="bg-secondary border-border"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {activeCouriers.map(c => <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Tracking Number</Label>
+                <Input value={trackingEdit.tracking} onChange={e => setTrackingEdit({ ...trackingEdit, tracking: e.target.value })} placeholder="Enter tracking number..." className="bg-secondary border-border" />
+              </div>
             </div>
           )}
           <DialogFooter>

@@ -39,6 +39,10 @@ import PlatformSettings from "@/pages/admin/settings/PlatformSettings";
 import AdminAccounts from "@/pages/admin/settings/AdminAccounts";
 import ApiIntegrations from "@/pages/admin/settings/ApiIntegrations";
 import AuditLog from "@/pages/admin/settings/AuditLog";
+import CourierNetworks from "@/pages/admin/orders/CourierNetworks";
+import ReferralPrograms from "@/pages/admin/referrals/ReferralPrograms";
+import ReferralLinks from "@/pages/admin/referrals/ReferralLinks";
+import ReferralAnalytics from "@/pages/admin/referrals/ReferralAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -77,12 +81,17 @@ const App = () => (
             {/* Order Manager */}
             <Route path="/orders" element={<AllOrders />} />
             <Route path="/orders/delivery" element={<DeliveryManager />} />
+            <Route path="/orders/couriers" element={<CourierNetworks />} />
             {/* Financial Manager */}
             <Route path="/finance/revenue" element={<RevenueDashboard />} />
             <Route path="/finance/escrow" element={<EscrowManager />} />
             <Route path="/finance/payouts" element={<PayoutManager />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
+            {/* Referral Manager */}
+            <Route path="/referrals/programs" element={<ReferralPrograms />} />
+            <Route path="/referrals/links" element={<ReferralLinks />} />
+            <Route path="/referrals/analytics" element={<ReferralAnalytics />} />
             {/* Reviews & Reports */}
             <Route path="/reviews/products" element={<ProductReviews />} />
             <Route path="/reviews/vendors" element={<VendorReviews />} />
