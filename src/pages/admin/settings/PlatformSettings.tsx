@@ -122,8 +122,16 @@ export default function PlatformSettings() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Local Delivery Fee ({settings.currency})</Label>
+              <Label>Local Flat Delivery Fee ({settings.currency})</Label>
               <Input type="number" value={settings.deliveryFeeLocal} onChange={e => update("deliveryFeeLocal", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
+              <Label>Per Km Rate ({settings.currency})</Label>
+              <Input type="number" value={settings.deliveryPerKmRate} onChange={e => update("deliveryPerKmRate", e.target.value)} className="bg-secondary border-border" />
+            </div>
+            <div className="space-y-2">
+              <Label>Flat Rate by City ({settings.currency})</Label>
+              <Input type="number" value={settings.deliveryFlatRateByCity} onChange={e => update("deliveryFlatRateByCity", e.target.value)} className="bg-secondary border-border" />
             </div>
             <div className="space-y-2">
               <Label>International Delivery Fee ({settings.currency})</Label>
