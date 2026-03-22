@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, UserCheck, ClipboardList, RotateCcw, Rss, Heart, UserPlus, AlertTriangle, XCircle } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, UserCheck, ClipboardList, RotateCcw, Rss, Heart, UserPlus, AlertTriangle, XCircle, Eye } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
