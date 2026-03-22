@@ -6,19 +6,21 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Plus, Pencil, Trash2, GripVertical, Globe, MapPin, Zap, Image as ImageIcon,
-  Save, ExternalLink, ChevronUp, ChevronDown,
+  Plus, Pencil, Trash2, GripVertical, Globe, MapPin, Zap, Save,
+  ChevronUp, ChevronDown, Rss, ShoppingBag, Sparkles,
 } from "lucide-react";
 import {
   heroSlides, categoryPills, featuredBanner as fbData, partnerBrands,
   valuePropositions, faqItems, footerLinks,
 } from "@/lib/mock-data-shop";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const targetBadge = (mode: string) => {
   const map: Record<string, { icon: React.ElementType; color: string }> = {
@@ -34,14 +36,38 @@ const targetBadge = (mode: string) => {
   );
 };
 
+// Duplicate initial data for two page contexts
+const initPageConfig = () => ({
+  slides: heroSlides.map(s => ({ ...s })),
+  pills: categoryPills.map(p => ({ ...p })),
+  fb: { ...fbData },
+  brands: partnerBrands.map(b => ({ ...b })),
+  vps: valuePropositions.map(v => ({ ...v })),
+  faqs: faqItems.map(f => ({ ...f })),
+  footer: { ...footerLinks, navigation: [...footerLinks.navigation], social: { ...footerLinks.social }, contact: { ...footerLinks.contact } },
+  recoWeights: { follows: 70, purchases: 30, trending: 50, newArrivals: 60, categoryAffinity: 40 },
+});
+
 export default function HomepageSections() {
-  const [slides, setSlides] = useState(heroSlides);
-  const [pills, setPills] = useState(categoryPills);
-  const [fb, setFb] = useState(fbData);
-  const [brands, setBrands] = useState(partnerBrands);
-  const [vps, setVps] = useState(valuePropositions);
-  const [faqs, setFaqs] = useState(faqItems);
-  const [footer, setFooter] = useState(footerLinks);
+  const [pageContext, setPageContext] = useState<"feed" | "shop">("feed");
+  const [feedConfig, setFeedConfig] = useState(initPageConfig());
+  const [shopConfig, setShopConfig] = useState(() => {
+    const cfg = initPageConfig();
+    // Shop page has different reco weights
+    cfg.recoWeights = { follows: 20, purchases: 80, trending: 60, newArrivals: 70, categoryAffinity: 90 };
+    return cfg;
+  });
+
+  const config = pageContext === "feed" ? feedConfig : shopConfig;
+  const setConfig = pageContext === "feed" ? setFeedConfig : setShopConfig;
+
+  const { slides, pills, fb, brands, vps, faqs, footer, recoWeights } = config;
+  const setSlides = (fn: (prev: typeof slides) => typeof slides) => setConfig(prev => ({ ...prev, slides: fn(prev.slides) }));
+  const setPills = (fn: (prev: typeof pills) => typeof pills) => setConfig(prev => ({ ...prev, pills: fn(prev.pills) }));
+  const setBrands = (fn: (prev: typeof brands) => typeof brands) => setConfig(prev => ({ ...prev, brands: fn(prev.brands) }));
+  const setVps = (fn: (prev: typeof vps) => typeof vps) => setConfig(prev => ({ ...prev, vps: fn(prev.vps) }));
+  const setFaqs = (fn: (prev: typeof faqs) => typeof faqs) => setConfig(prev => ({ ...prev, faqs: fn(prev.faqs) }));
+  const setRecoWeights = (key: string, value: number) => setConfig(prev => ({ ...prev, recoWeights: { ...prev.recoWeights, [key]: value } }));
 
   const moveItem = <T extends { order: number }>(list: T[], index: number, dir: -1 | 1): T[] => {
     const arr = [...list];
@@ -53,10 +79,40 @@ export default function HomepageSections() {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold">Homepage Sections</h1>
-        <p className="text-sm text-muted-foreground mt-1">Manage all homepage content blocks</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Homepage Sections</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage content blocks for each storefront page</p>
+        </div>
       </div>
+
+      {/* PAGE CONTEXT SELECTOR */}
+      <Card className="bg-card border-border">
+        <CardContent className="p-3">
+          <div className="flex items-center gap-2">
+            <p className="text-xs text-muted-foreground mr-2">Editing:</p>
+            <Button
+              variant={pageContext === "feed" ? "default" : "outline"}
+              size="sm"
+              className={cn("gap-1.5", pageContext === "feed" && "bg-primary text-primary-foreground")}
+              onClick={() => setPageContext("feed")}
+            >
+              <Rss className="h-3.5 w-3.5" /> Feed Page
+            </Button>
+            <Button
+              variant={pageContext === "shop" ? "default" : "outline"}
+              size="sm"
+              className={cn("gap-1.5", pageContext === "shop" && "bg-primary text-primary-foreground")}
+              onClick={() => setPageContext("shop")}
+            >
+              <ShoppingBag className="h-3.5 w-3.5" /> Shop Page
+            </Button>
+            <Badge variant="outline" className="text-[10px] border-border ml-auto">
+              {pageContext === "feed" ? "Social browsing experience" : "Traditional e-commerce layout"}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
 
       <Tabs defaultValue="hero" className="space-y-4">
         <TabsList className="bg-secondary border border-border h-9 flex-wrap">
@@ -67,22 +123,23 @@ export default function HomepageSections() {
           <TabsTrigger value="values" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Value Props</TabsTrigger>
           <TabsTrigger value="faq" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">FAQ</TabsTrigger>
           <TabsTrigger value="footer" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Footer</TabsTrigger>
+          <TabsTrigger value="reco" className="text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Recommendations</TabsTrigger>
         </TabsList>
 
         {/* HERO SLIDESHOW */}
         <TabsContent value="hero" className="space-y-3">
           <div className="flex justify-between items-center">
-            <p className="text-sm text-muted-foreground">{slides.length} slides configured</p>
+            <p className="text-sm text-muted-foreground">{slides.length} slides on {pageContext === "feed" ? "Feed" : "Shop"} page</p>
             <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"><Plus className="h-3.5 w-3.5" /> Add Slide</Button>
           </div>
-          {slides.sort((a, b) => a.order - b.order).map((slide, i) => (
+          {[...slides].sort((a, b) => a.order - b.order).map((slide, i) => (
             <Card key={slide.id} className="bg-card border-border">
               <CardContent className="p-3">
                 <div className="flex gap-3">
                   <div className="flex flex-col items-center gap-1 pt-1">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSlides(moveItem(slides, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSlides(prev => moveItem(prev, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
                     <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSlides(moveItem(slides, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setSlides(prev => moveItem(prev, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
                   </div>
                   <img src={slide.image} alt="" className="h-20 w-36 rounded-md object-cover bg-secondary shrink-0" />
                   <div className="flex-1 min-w-0 space-y-1">
@@ -92,13 +149,13 @@ export default function HomepageSections() {
                     </div>
                     <p className="text-[10px] text-muted-foreground">CTA: {slide.ctaText} → {slide.ctaLink}</p>
                     <div className="flex items-center gap-2 pt-1">
-                      <Switch checked={slide.active} onCheckedChange={() => setSlides(slides.map(s => s.id === slide.id ? { ...s, active: !s.active } : s))} />
+                      <Switch checked={slide.active} onCheckedChange={() => setSlides(prev => prev.map(s => s.id === slide.id ? { ...s, active: !s.active } : s))} />
                       <span className="text-[10px] text-muted-foreground">{slide.active ? "Active" : "Inactive"}</span>
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
                     <Button variant="ghost" size="icon" className="h-7 w-7"><Pencil className="h-3 w-3" /></Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => setSlides(prev => prev.filter(s => s.id !== slide.id))}><Trash2 className="h-3 w-3" /></Button>
                   </div>
                 </div>
               </CardContent>
@@ -114,18 +171,18 @@ export default function HomepageSections() {
           </div>
           <Card className="bg-card border-border">
             <CardContent className="p-3 space-y-2">
-              {pills.sort((a, b) => a.order - b.order).map((pill, i) => (
+              {[...pills].sort((a, b) => a.order - b.order).map((pill, i) => (
                 <div key={pill.id} className="flex items-center gap-3 py-1.5">
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setPills(moveItem(pills, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setPills(moveItem(pills, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setPills(prev => moveItem(prev, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setPills(prev => moveItem(prev, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
                   </div>
                   <span className="text-lg">{pill.icon}</span>
                   <span className="text-sm font-medium flex-1">{pill.label}</span>
                   {targetBadge(pill.targetMode)}
                   <span className="text-[10px] text-muted-foreground">{pill.linkedCollection}</span>
                   <Button variant="ghost" size="icon" className="h-7 w-7"><Pencil className="h-3 w-3" /></Button>
-                  <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                  <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => setPills(prev => prev.filter(p => p.id !== pill.id))}><Trash2 className="h-3 w-3" /></Button>
                 </div>
               ))}
             </CardContent>
@@ -152,7 +209,7 @@ export default function HomepageSections() {
               </div>
               <div className="flex justify-between items-center">
                 {targetBadge(fb.targetMode)}
-                <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"><Save className="h-3.5 w-3.5" /> Save</Button>
+                <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => toast.success("Banner saved")}><Save className="h-3.5 w-3.5" /> Save</Button>
               </div>
             </CardContent>
           </Card>
@@ -167,11 +224,11 @@ export default function HomepageSections() {
           <Card className="bg-card border-border">
             <CardContent className="p-3">
               <div className="flex flex-wrap gap-3">
-                {brands.sort((a, b) => a.order - b.order).map((brand) => (
+                {[...brands].sort((a, b) => a.order - b.order).map((brand) => (
                   <div key={brand.id} className="relative group bg-secondary rounded-lg p-3 flex flex-col items-center gap-2 w-28">
                     <img src={brand.logo} alt={brand.name} className="h-10 w-20 object-contain rounded" />
                     <span className="text-[10px] text-muted-foreground">{brand.name}</span>
-                    <Button variant="ghost" size="icon" className="absolute -top-1 -right-1 h-5 w-5 bg-destructive/80 text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                    <Button variant="ghost" size="icon" className="absolute -top-1 -right-1 h-5 w-5 bg-destructive/80 text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-full" onClick={() => setBrands(prev => prev.filter(b => b.id !== brand.id))}>
                       <Trash2 className="h-2.5 w-2.5" />
                     </Button>
                   </div>
@@ -213,7 +270,8 @@ export default function HomepageSections() {
                     const title = (document.getElementById("vp-title") as HTMLInputElement)?.value;
                     const desc = (document.getElementById("vp-desc") as HTMLInputElement)?.value;
                     if (!title) return;
-                    setVps(prev => [...prev, { id: `VP-${Date.now()}`, icon, title, description: desc || "", targetMode: "BOTH" }]);
+                    setVps(prev => [...prev, { id: `VP-${Date.now()}`, icon, title, description: desc || "", targetMode: "BOTH" as const }]);
+                    toast.success("Value prop added");
                   }}>Add</Button>
                 </div>
               </DialogContent>
@@ -249,13 +307,13 @@ export default function HomepageSections() {
             <p className="text-sm text-muted-foreground">{faqs.length} FAQ items</p>
             <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"><Plus className="h-3.5 w-3.5" /> Add FAQ</Button>
           </div>
-          {faqs.sort((a, b) => a.order - b.order).map((faq, i) => (
+          {[...faqs].sort((a, b) => a.order - b.order).map((faq, i) => (
             <Card key={faq.id} className="bg-card border-border">
               <CardContent className="p-3">
                 <div className="flex gap-3">
                   <div className="flex flex-col items-center gap-1 pt-1">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFaqs(moveItem(faqs, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFaqs(moveItem(faqs, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFaqs(prev => moveItem(prev, i, -1))}><ChevronUp className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFaqs(prev => moveItem(prev, i, 1))}><ChevronDown className="h-3 w-3" /></Button>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
@@ -266,7 +324,7 @@ export default function HomepageSections() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <Button variant="ghost" size="icon" className="h-7 w-7"><Pencil className="h-3 w-3" /></Button>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => setFaqs(prev => prev.filter(f => f.id !== faq.id))}><Trash2 className="h-3 w-3" /></Button>
                   </div>
                 </div>
               </CardContent>
@@ -312,7 +370,51 @@ export default function HomepageSections() {
               </CardContent>
             </Card>
           </div>
-          <Button className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"><Save className="h-3.5 w-3.5" /> Save Footer</Button>
+          <Button className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => toast.success("Footer saved")}><Save className="h-3.5 w-3.5" /> Save Footer</Button>
+        </TabsContent>
+
+        {/* RECOMMENDATION ENGINE */}
+        <TabsContent value="reco" className="space-y-4">
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                Recommendation Engine — {pageContext === "feed" ? "Feed Page" : "Shop Page"}
+              </CardTitle>
+              <CardDescription className="text-xs">
+                {pageContext === "feed"
+                  ? "Feed page recommendations are driven by social signals — follows, likes, and shares"
+                  : "Shop page recommendations are driven by purchase history, trending products, and category browsing"}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {Object.entries(recoWeights).map(([key, value]) => {
+                const labels: Record<string, { label: string; feedDesc: string; shopDesc: string }> = {
+                  follows: { label: "Social Following", feedDesc: "Recommend from vendors the user follows", shopDesc: "Minor influence from followed vendors" },
+                  purchases: { label: "Purchase History", feedDesc: "Light influence from past purchases", shopDesc: "Strongly recommend similar to past buys" },
+                  trending: { label: "Trending Items", feedDesc: "Surface trending posts in feed", shopDesc: "Show trending products in carousels" },
+                  newArrivals: { label: "New Arrivals", feedDesc: "Boost new vendor posts", shopDesc: "Feature recently added products" },
+                  categoryAffinity: { label: "Category Affinity", feedDesc: "Match content to browsed categories", shopDesc: "Strongly personalize by category browsing" },
+                };
+                const info = labels[key] || { label: key, feedDesc: "", shopDesc: "" };
+                return (
+                  <div key={key} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-xs">{info.label}</Label>
+                        <p className="text-[10px] text-muted-foreground">{pageContext === "feed" ? info.feedDesc : info.shopDesc}</p>
+                      </div>
+                      <Badge variant="outline" className="text-[10px] tabular-nums border-border">{value}%</Badge>
+                    </div>
+                    <Slider value={[value]} min={0} max={100} step={5} onValueChange={(v) => setRecoWeights(key, v[0])} />
+                  </div>
+                );
+              })}
+              <Button className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90" size="sm" onClick={() => toast.success("Recommendation weights saved")}>
+                <Save className="h-3.5 w-3.5" /> Save Recommendation Settings
+              </Button>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

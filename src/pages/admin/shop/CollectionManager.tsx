@@ -5,14 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, MoreHorizontal, Eye, EyeOff, Star, Package, Globe, MapPin, Zap, Search, GripVertical } from "lucide-react";
 import { collections } from "@/lib/mock-data-shop";
+import { allProducts } from "@/lib/mock-data-products";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const targetColors: Record<string, string> = { LOCAL: "text-blue-400 border-blue-400/30", INTERNATIONAL: "text-purple-400 border-purple-400/30", BOTH: "text-primary border-primary/30" };
 const targetIcons: Record<string, React.ElementType> = { LOCAL: MapPin, INTERNATIONAL: Globe, BOTH: Zap };
@@ -22,10 +25,30 @@ export default function CollectionManager() {
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Product assignment
+  const [assignCol, setAssignCol] = useState<string | null>(null);
+  const [assignSearch, setAssignSearch] = useState("");
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+
   const filtered = cols.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()));
 
   const toggleVisibility = (id: string) => setCols((prev) => prev.map((c) => c.id === id ? { ...c, visible: !c.visible } : c));
   const toggleFeatured = (id: string) => setCols((prev) => prev.map((c) => c.id === id ? { ...c, featured: !c.featured } : c));
+
+  const openAssign = (colId: string) => {
+    setAssignCol(colId);
+    setAssignSearch("");
+    setSelectedProducts([]);
+  };
+
+  const saveAssignment = () => {
+    toast.success(`${selectedProducts.length} products assigned to collection`);
+    setAssignCol(null);
+  };
+
+  const filteredProducts = allProducts.filter(p =>
+    p.name.toLowerCase().includes(assignSearch.toLowerCase()) || p.vendor.toLowerCase().includes(assignSearch.toLowerCase())
+  );
 
   return (
     <div className="space-y-4">
@@ -43,18 +66,31 @@ export default function CollectionManager() {
             <div className="space-y-3 pt-2">
               <div className="space-y-1"><Label className="text-xs">Name</Label><Input placeholder="e.g. New Arrivals" className="bg-secondary border-border h-9" /></div>
               <div className="space-y-1"><Label className="text-xs">Description</Label><Textarea placeholder="Describe this collection..." className="bg-secondary border-border text-xs min-h-[60px]" /></div>
-              <div className="space-y-1">
-                <Label className="text-xs">Target Mode</Label>
-                <Select defaultValue="BOTH">
-                  <SelectTrigger className="bg-secondary border-border h-9"><SelectValue /></SelectTrigger>
-                  <SelectContent><SelectItem value="LOCAL">Local</SelectItem><SelectItem value="INTERNATIONAL">International</SelectItem><SelectItem value="BOTH">Both</SelectItem></SelectContent>
-                </Select>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs">Target Mode</Label>
+                  <Select defaultValue="BOTH">
+                    <SelectTrigger className="bg-secondary border-border h-9"><SelectValue /></SelectTrigger>
+                    <SelectContent><SelectItem value="LOCAL">Local</SelectItem><SelectItem value="INTERNATIONAL">International</SelectItem><SelectItem value="BOTH">Both</SelectItem></SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Page Context</Label>
+                  <Select defaultValue="both">
+                    <SelectTrigger className="bg-secondary border-border h-9"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="feed">Feed Page Only</SelectItem>
+                      <SelectItem value="shop">Shop Page Only</SelectItem>
+                      <SelectItem value="both">Both Pages</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="space-y-1">
                 <Label className="text-xs">Header Image</Label>
                 <div className="border border-dashed border-border rounded-lg h-24 flex items-center justify-center text-xs text-muted-foreground cursor-pointer hover:border-primary/50 transition-colors">Click to upload</div>
               </div>
-              <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => setDialogOpen(false)}>Create Collection</Button>
+              <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => { setDialogOpen(false); toast.success("Collection created"); }}>Create Collection</Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -111,7 +147,7 @@ export default function CollectionManager() {
                           <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7"><MoreHorizontal className="h-3.5 w-3.5" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-card border-border">
                             <DropdownMenuItem className="text-xs gap-2"><Pencil className="h-3.5 w-3.5" /> Edit</DropdownMenuItem>
-                            <DropdownMenuItem className="text-xs gap-2"><Package className="h-3.5 w-3.5" /> Manage Products</DropdownMenuItem>
+                            <DropdownMenuItem className="text-xs gap-2" onClick={() => openAssign(col.id)}><Package className="h-3.5 w-3.5" /> Manage Products</DropdownMenuItem>
                             <DropdownMenuItem className="text-xs gap-2 text-destructive"><Trash2 className="h-3.5 w-3.5" /> Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -124,6 +160,45 @@ export default function CollectionManager() {
           </div>
         </CardContent>
       </Card>
+
+      {/* PRODUCT ASSIGNMENT DIALOG */}
+      <Dialog open={!!assignCol} onOpenChange={() => setAssignCol(null)}>
+        <DialogContent className="bg-card border-border max-w-2xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Manage Products — {cols.find(c => c.id === assignCol)?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search products..." value={assignSearch} onChange={(e) => setAssignSearch(e.target.value)} className="pl-9 bg-secondary border-border h-9" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-[10px] border-border">{selectedProducts.length} selected</Badge>
+              <Button variant="ghost" size="sm" className="text-xs h-7" onClick={() => setSelectedProducts(filteredProducts.map(p => p.id))}>Select All</Button>
+              <Button variant="ghost" size="sm" className="text-xs h-7" onClick={() => setSelectedProducts([])}>Clear</Button>
+            </div>
+            <div className="max-h-[40vh] overflow-y-auto space-y-1">
+              {filteredProducts.map(product => (
+                <div key={product.id} className="flex items-center gap-3 p-2 rounded-md hover:bg-secondary/50 cursor-pointer" onClick={() => setSelectedProducts(prev => prev.includes(product.id) ? prev.filter(id => id !== product.id) : [...prev, product.id])}>
+                  <Checkbox checked={selectedProducts.includes(product.id)} />
+                  <div className="w-8 h-8 rounded bg-secondary flex items-center justify-center text-[10px] text-muted-foreground shrink-0">IMG</div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium truncate">{product.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{product.vendor} · MWK {product.price.toLocaleString()}</p>
+                  </div>
+                  <Badge variant="secondary" className="text-[10px]">{product.category}</Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setAssignCol(null)}>Cancel</Button>
+            <Button className="bg-primary text-primary-foreground gap-1.5" onClick={saveAssignment}>
+              <Package className="h-3.5 w-3.5" /> Save {selectedProducts.length} Products
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -3,19 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { allProducts, Product } from "@/lib/mock-data-products";
-import { Star, Calendar, Eye } from "lucide-react";
+import { Star, Rss, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState<Product[]>(allProducts);
+  const [pageFilter, setPageFilter] = useState<"all" | "feed" | "shop">("all");
   const featured = products.filter(p => p.featured);
   const available = products.filter(p => !p.featured && p.status === "Approved");
 
   const toggleFeatured = (id: string) => {
-    setProducts(prev => prev.map(p => p.id === id ? { ...p, featured: !p.featured, featureStart: !p.featured ? new Date().toISOString().split("T")[0] : undefined, featureEnd: !p.featured ? new Date(Date.now() + 30 * 86400000).toISOString().split("T")[0] : undefined } : p));
+    setProducts(prev => prev.map(p => p.id === id ? { ...p, featured: !p.featured, featureStart: !p.featured ? new Date().toISOString().split("T")[0] : undefined, featureEnd: !p.featured ? new Date(Date.now() + 30 * 86400000).toISOString().split("T")[0] : undefined, featurePage: "both" as const } : p));
     toast.success("Updated");
   };
 
@@ -23,16 +25,31 @@ const FeaturedProducts = () => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
   };
 
+  const updateFeaturePage = (id: string, value: string) => {
+    setProducts(prev => prev.map(p => p.id === id ? { ...p, featurePage: value } : p));
+    toast.success("Page context updated");
+  };
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Featured Products</h1>
-        <p className="text-muted-foreground">Manage which products appear in carousels, hero slides, and featured sections</p>
+        <p className="text-muted-foreground">Manage which products appear in carousels, hero slides, and featured sections on each page</p>
       </div>
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-foreground flex items-center gap-2"><Star className="h-5 w-5 text-primary" /> Currently Featured ({featured.length})</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-foreground flex items-center gap-2"><Star className="h-5 w-5 text-primary" /> Currently Featured ({featured.length})</CardTitle>
+            <Select value={pageFilter} onValueChange={(v: any) => setPageFilter(v)}>
+              <SelectTrigger className="w-40 bg-secondary border-border h-9"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Pages</SelectItem>
+                <SelectItem value="feed">Feed Page</SelectItem>
+                <SelectItem value="shop">Shop Page</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
           {featured.length === 0 ? (
@@ -44,9 +61,10 @@ const FeaturedProducts = () => {
                   <TableHead>Product</TableHead>
                   <TableHead>Vendor</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead>Feature Start</TableHead>
-                  <TableHead>Feature End</TableHead>
-                  <TableHead>Placement Preview</TableHead>
+                  <TableHead>Start</TableHead>
+                  <TableHead>End</TableHead>
+                  <TableHead>Page</TableHead>
+                  <TableHead>Placement</TableHead>
                   <TableHead className="text-right">Remove</TableHead>
                 </TableRow>
               </TableHeader>
@@ -69,6 +87,16 @@ const FeaturedProducts = () => {
                     </TableCell>
                     <TableCell>
                       <Input type="date" value={p.featureEnd || ""} onChange={e => updateDate(p.id, "featureEnd", e.target.value)} className="w-36 bg-secondary border-border text-foreground text-xs" />
+                    </TableCell>
+                    <TableCell>
+                      <Select value={(p as any).featurePage || "both"} onValueChange={(v) => updateFeaturePage(p.id, v)}>
+                        <SelectTrigger className="w-28 bg-secondary border-border h-8 text-xs"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="feed"><span className="flex items-center gap-1"><Rss className="h-3 w-3" /> Feed</span></SelectItem>
+                          <SelectItem value="shop"><span className="flex items-center gap-1"><ShoppingBag className="h-3 w-3" /> Shop</span></SelectItem>
+                          <SelectItem value="both">Both</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
