@@ -124,6 +124,7 @@ export default function Overview() {
                   <TableHead className="text-xs text-muted-foreground hidden md:table-cell">Vendor</TableHead>
                   <TableHead className="text-xs text-muted-foreground text-right">Amount</TableHead>
                   <TableHead className="text-xs text-muted-foreground">Status</TableHead>
+                  <TableHead className="text-xs text-muted-foreground w-16"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -137,6 +138,11 @@ export default function Overview() {
                       <Badge variant="outline" className={cn("text-[10px] font-medium", statusColors[order.status])}>
                         {order.status}
                       </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="ghost" size="sm" className="h-7 text-xs text-primary hover:text-primary">
+                        <Eye className="h-3.5 w-3.5 mr-1" /> View
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
