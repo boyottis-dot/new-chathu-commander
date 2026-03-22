@@ -27,8 +27,10 @@ const DeliveryManager = () => {
   const shippedOrders = allOrders.filter(o => !["Pending", "Cancelled", "Refunded"].includes(o.status));
   const [orders, setOrders] = useState<Order[]>(shippedOrders);
   const [search, setSearch] = useState("");
-  const [trackingEdit, setTrackingEdit] = useState<{ order: Order; tracking: string } | null>(null);
+  const [trackingEdit, setTrackingEdit] = useState<{ order: Order; tracking: string; courier: string } | null>(null);
   const [statusEdit, setStatusEdit] = useState<{ order: Order; newStatus: string } | null>(null);
+
+  const activeCouriers = couriers.filter(c => c.status === "active");
 
   const localOrders = orders.filter(o => o.location === "LOCAL");
   const intlOrders = orders.filter(o => o.location === "INTERNATIONAL");
