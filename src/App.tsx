@@ -81,6 +81,7 @@ const App = () => (
             {/* Order Manager */}
             <Route path="/orders" element={<AllOrders />} />
             <Route path="/orders/delivery" element={<DeliveryManager />} />
+            <Route path="/orders/couriers" element={<CourierNetworks />} />
             {/* Financial Manager */}
             <Route path="/finance/revenue" element={<RevenueDashboard />} />
             <Route path="/finance/escrow" element={<EscrowManager />} />
