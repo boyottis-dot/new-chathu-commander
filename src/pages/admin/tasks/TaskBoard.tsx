@@ -83,8 +83,8 @@ export default function TaskBoard() {
           </DropdownMenu>
         </div>
         <div className="flex flex-wrap gap-1">
-          <Badge className={priorityColors[task.priority]} variant="secondary" className={`text-[10px] ${priorityColors[task.priority]}`}>{task.priority}</Badge>
-          <Badge className={categoryColors[task.category]} variant="secondary" className={`text-[10px] ${categoryColors[task.category]}`}>{task.category}</Badge>
+          <Badge variant="secondary" className={`text-[10px] ${priorityColors[task.priority]}`}>{task.priority}</Badge>
+          <Badge variant="secondary" className={`text-[10px] ${categoryColors[task.category]}`}>{task.category}</Badge>
         </div>
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
