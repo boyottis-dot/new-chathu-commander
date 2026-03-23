@@ -98,6 +98,21 @@ const App = () => (
             <Route path="/finance/revenue" element={<RevenueDashboard />} />
             <Route path="/finance/escrow" element={<EscrowManager />} />
             <Route path="/finance/payouts" element={<PayoutManager />} />
+            {/* Team & HR */}
+            <Route path="/team/employees" element={<EmployeeDirectory />} />
+            <Route path="/team/departments" element={<DepartmentsRoles />} />
+            <Route path="/team/influencers" element={<InfluencerNetwork />} />
+            {/* Task Manager */}
+            <Route path="/tasks/board" element={<TaskBoard />} />
+            <Route path="/tasks/calendar" element={<TaskCalendar />} />
+            {/* Operations */}
+            <Route path="/operations/budget" element={<BudgetPlanner />} />
+            <Route path="/operations/expenses" element={<ExpenseTracker />} />
+            <Route path="/operations/payroll" element={<PayrollOverview />} />
+            <Route path="/operations/forecasting" element={<Forecasting />} />
+            {/* Documents */}
+            <Route path="/documents/files" element={<DocumentManager />} />
+            <Route path="/documents/templates" element={<DocumentTemplates />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
             {/* Referral Manager */}
