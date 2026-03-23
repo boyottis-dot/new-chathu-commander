@@ -56,7 +56,7 @@ export default function DocumentTemplates() {
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">{typeIcons[tmpl.type]}</span>
-                  <div><CardTitle className="text-sm">{tmpl.name}</CardTitle><Badge className={categoryColors[tmpl.category] || "bg-muted text-muted-foreground"} variant="secondary" className={`text-[10px] mt-1 ${categoryColors[tmpl.category] || "bg-muted text-muted-foreground"}`}>{tmpl.category}</Badge></div>
+                  <div><CardTitle className="text-sm">{tmpl.name}</CardTitle><Badge variant="secondary" className={`text-[10px] mt-1 ${categoryColors[tmpl.category] || "bg-muted text-muted-foreground"}`}>{tmpl.category}</Badge></div>
                 </div>
               </div>
             </CardHeader>
