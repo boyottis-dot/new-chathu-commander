@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Rss, Store, Users, Package,
   ShoppingCart, DollarSign, Bell, Settings, MoreHorizontal, RotateCcw, Star, Gift,
+  ClipboardList, FolderOpen, Briefcase, Calendar,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -10,7 +11,7 @@ import { useState } from "react";
 const primaryNav = [
   { icon: LayoutDashboard, label: "Overview", path: "/" },
   { icon: ShoppingCart, label: "Orders", path: "/orders" },
-  { icon: Package, label: "Products", path: "/products" },
+  { icon: ClipboardList, label: "Tasks", path: "/tasks/board" },
   { icon: DollarSign, label: "Finance", path: "/finance/revenue" },
 ];
 
@@ -19,6 +20,10 @@ const moreNav = [
   { icon: Store, label: "Shop", path: "/shop/homepage" },
   { icon: Users, label: "Vendors", path: "/vendors" },
   { icon: Users, label: "Customers", path: "/customers" },
+  { icon: Package, label: "Products", path: "/products" },
+  { icon: Briefcase, label: "Team", path: "/team/employees" },
+  { icon: Calendar, label: "Operations", path: "/operations/budget" },
+  { icon: FolderOpen, label: "Documents", path: "/documents/files" },
   { icon: Gift, label: "Referrals", path: "/referrals/programs" },
   { icon: RotateCcw, label: "Refunds", path: "/refunds" },
   { icon: Star, label: "Reviews", path: "/reviews/products" },

@@ -5,6 +5,8 @@ import {
   PiggyBank, CreditCard, MessageSquare, Flag, Send, History,
   Zap, Shield, Plug, ClipboardList, ImageIcon, Layers, UserPlus,
   BarChart3, Wallet, TrendingUp, Tags, Award, Network, Link2, PieChart,
+  Briefcase, Building2, Crown, LayoutGrid, Calendar,
+  DollarSign as Budget, Receipt, LineChart, FolderOpen, FileText as FileTemplate,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
