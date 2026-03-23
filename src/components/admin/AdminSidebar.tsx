@@ -95,6 +95,41 @@ const navSections: NavSection[] = [
     ],
   },
   {
+    title: "Team & HR",
+    icon: Briefcase,
+    items: [
+      { title: "Employees", url: "/team/employees", icon: Users },
+      { title: "Departments & Roles", url: "/team/departments", icon: Building2 },
+      { title: "Influencer Network", url: "/team/influencers", icon: Crown },
+    ],
+  },
+  {
+    title: "Task Manager",
+    icon: ClipboardList,
+    items: [
+      { title: "Task Board", url: "/tasks/board", icon: LayoutGrid },
+      { title: "Calendar", url: "/tasks/calendar", icon: Calendar },
+    ],
+  },
+  {
+    title: "Operations",
+    icon: BarChart3,
+    items: [
+      { title: "Budget Planner", url: "/operations/budget", icon: DollarSign },
+      { title: "Expenses", url: "/operations/expenses", icon: Receipt },
+      { title: "Payroll", url: "/operations/payroll", icon: Wallet },
+      { title: "Forecasting", url: "/operations/forecasting", icon: LineChart },
+    ],
+  },
+  {
+    title: "Documents",
+    icon: FolderOpen,
+    items: [
+      { title: "File Manager", url: "/documents/files", icon: FolderOpen },
+      { title: "Templates", url: "/documents/templates", icon: FileTemplate },
+    ],
+  },
+  {
     title: "Refund Manager",
     icon: RotateCcw,
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
