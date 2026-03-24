@@ -75,6 +75,7 @@ const navSections: NavSection[] = [
       { title: "Approval Queue", url: "/products/approvals", icon: ClipboardList },
       { title: "All Products", url: "/products", icon: Package },
       { title: "Featured", url: "/products/featured", icon: Award },
+      { title: "Inventory", url: "/products/inventory", icon: PackageSearch },
     ],
   },
   {
