@@ -55,6 +55,11 @@ import PayrollOverview from "@/pages/admin/operations/PayrollOverview";
 import Forecasting from "@/pages/admin/operations/Forecasting";
 import DocumentManager from "@/pages/admin/documents/DocumentManager";
 import DocumentTemplates from "@/pages/admin/documents/DocumentTemplates";
+// Phase 2 imports
+import InventoryManagement from "@/pages/admin/products/InventoryManagement";
+import DisputeCenter from "@/pages/admin/disputes/DisputeCenter";
+import SupportTickets from "@/pages/admin/support/SupportTickets";
+import LiveChat from "@/pages/admin/support/LiveChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -90,6 +95,7 @@ const App = () => (
             <Route path="/products/approvals" element={<ProductApprovals />} />
             <Route path="/products" element={<AllProducts />} />
             <Route path="/products/featured" element={<FeaturedProducts />} />
+            <Route path="/products/inventory" element={<InventoryManagement />} />
             {/* Order Manager */}
             <Route path="/orders" element={<AllOrders />} />
             <Route path="/orders/delivery" element={<DeliveryManager />} />
@@ -115,6 +121,11 @@ const App = () => (
             <Route path="/documents/templates" element={<DocumentTemplates />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
+            {/* Disputes */}
+            <Route path="/disputes" element={<DisputeCenter />} />
+            {/* Support Center */}
+            <Route path="/support/tickets" element={<SupportTickets />} />
+            <Route path="/support/live" element={<LiveChat />} />
             {/* Referral Manager */}
             <Route path="/referrals/programs" element={<ReferralPrograms />} />
             <Route path="/referrals/links" element={<ReferralLinks />} />

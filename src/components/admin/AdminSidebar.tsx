@@ -7,6 +7,7 @@ import {
   BarChart3, Wallet, TrendingUp, Tags, Award, Network, Link2, PieChart,
   Briefcase, Building2, Crown, LayoutGrid, Calendar,
   DollarSign as Budget, Receipt, LineChart, FolderOpen, FileText as FileTemplate,
+  PackageSearch, Scale, Headphones, MessageCircle,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -74,6 +75,7 @@ const navSections: NavSection[] = [
       { title: "Approval Queue", url: "/products/approvals", icon: ClipboardList },
       { title: "All Products", url: "/products", icon: Package },
       { title: "Featured", url: "/products/featured", icon: Award },
+      { title: "Inventory", url: "/products/inventory", icon: PackageSearch },
     ],
   },
   {
@@ -133,6 +135,19 @@ const navSections: NavSection[] = [
     title: "Refund Manager",
     icon: RotateCcw,
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
+  },
+  {
+    title: "Disputes",
+    icon: Scale,
+    items: [{ title: "Resolution Center", url: "/disputes", icon: Scale }],
+  },
+  {
+    title: "Support Center",
+    icon: Headphones,
+    items: [
+      { title: "Tickets", url: "/support/tickets", icon: Headphones },
+      { title: "Live Chat", url: "/support/live", icon: MessageCircle },
+    ],
   },
   {
     title: "Referral Manager",
