@@ -137,6 +137,19 @@ const navSections: NavSection[] = [
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
   },
   {
+    title: "Disputes",
+    icon: Scale,
+    items: [{ title: "Resolution Center", url: "/disputes", icon: Scale }],
+  },
+  {
+    title: "Support Center",
+    icon: Headphones,
+    items: [
+      { title: "Tickets", url: "/support/tickets", icon: Headphones },
+      { title: "Live Chat", url: "/support/live", icon: MessageCircle },
+    ],
+  },
+  {
     title: "Referral Manager",
     icon: Gift,
     items: [
