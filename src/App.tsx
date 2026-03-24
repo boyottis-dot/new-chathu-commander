@@ -121,6 +121,11 @@ const App = () => (
             <Route path="/documents/templates" element={<DocumentTemplates />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
+            {/* Disputes */}
+            <Route path="/disputes" element={<DisputeCenter />} />
+            {/* Support Center */}
+            <Route path="/support/tickets" element={<SupportTickets />} />
+            <Route path="/support/live" element={<LiveChat />} />
             {/* Referral Manager */}
             <Route path="/referrals/programs" element={<ReferralPrograms />} />
             <Route path="/referrals/links" element={<ReferralLinks />} />

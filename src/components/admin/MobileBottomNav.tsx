@@ -29,6 +29,9 @@ const moreNav = [
   { icon: Star, label: "Reviews", path: "/reviews/products" },
   { icon: Bell, label: "Notifications", path: "/notifications/send" },
   { icon: Settings, label: "Settings", path: "/settings/platform" },
+  { icon: Package, label: "Inventory", path: "/products/inventory" },
+  { icon: Users, label: "Disputes", path: "/disputes" },
+  { icon: Bell, label: "Support", path: "/support/tickets" },
 ];
 
 export function MobileBottomNav() {
