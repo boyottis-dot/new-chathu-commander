@@ -55,6 +55,11 @@ import PayrollOverview from "@/pages/admin/operations/PayrollOverview";
 import Forecasting from "@/pages/admin/operations/Forecasting";
 import DocumentManager from "@/pages/admin/documents/DocumentManager";
 import DocumentTemplates from "@/pages/admin/documents/DocumentTemplates";
+// Phase 2 imports
+import InventoryManagement from "@/pages/admin/products/InventoryManagement";
+import DisputeCenter from "@/pages/admin/disputes/DisputeCenter";
+import SupportTickets from "@/pages/admin/support/SupportTickets";
+import LiveChat from "@/pages/admin/support/LiveChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
