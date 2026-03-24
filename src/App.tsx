@@ -95,6 +95,7 @@ const App = () => (
             <Route path="/products/approvals" element={<ProductApprovals />} />
             <Route path="/products" element={<AllProducts />} />
             <Route path="/products/featured" element={<FeaturedProducts />} />
+            <Route path="/products/inventory" element={<InventoryManagement />} />
             {/* Order Manager */}
             <Route path="/orders" element={<AllOrders />} />
             <Route path="/orders/delivery" element={<DeliveryManager />} />
