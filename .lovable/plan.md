@@ -1,101 +1,94 @@
 
 
-## Comprehensive Enhancement Plan — 8 Feature Upgrades
+## Dashboard Gap Analysis — What's Missing for a World-Class Platform
 
-### 1. Advanced Feed Algorithm Page
-**Current**: Basic weight sliders (4 signals), post type toggles, location preview, pin post.
-**Upgrade**: Add engagement decay curve control, time-of-day boost scheduling, per-category weight overrides, A/B test toggle (split feed into variant A/B with percentages), content freshness half-life slider, user affinity scoring weights (purchase history, likes, follows, shares), feed diversity settings (max posts from same vendor), and a real-time feed simulation preview showing a mock feed ranked by current settings.
-
-**Files**: `src/pages/admin/feed/FeedAlgorithm.tsx`, `src/lib/mock-data-feed.ts`
+After reviewing every module, here's what an Amazon-tier admin dashboard would have that yours currently lacks. Organized by priority.
 
 ---
 
-### 2. Value Props — Add/Remove Support
-**Current**: Only edit button on fixed 4 value proposition cards.
-**Upgrade**: Add "Add Value Prop" button with dialog (icon, title, description, target mode). Add delete button per card. Make list dynamic with state management.
+### Critical Gaps (High Impact)
 
-**Files**: `src/pages/admin/shop/HomepageSections.tsx`
+**1. Inventory & Stock Management**
+No dedicated inventory page. Products have a `stock` field but there's no low-stock alerts dashboard, restock requests, stock history, or warehouse/location-based inventory tracking. Amazon has entire teams around this.
+- New page: `/products/inventory` — stock levels, low-stock alerts, restock queue, stock movement history
 
----
+**2. Dispute & Resolution Center**
+Refund Manager exists but there's no formal dispute system where customers and vendors can submit evidence, admin can mediate, escalate, and track resolution timelines. Amazon's A-to-Z Guarantee system is built around this.
+- New page: `/disputes` — open cases, evidence uploads, timeline, resolution actions, SLA tracking
 
-### 3. Dual-Page Content Management (Feed Homepage vs Shop Page)
-**Current**: Single homepage section manager. No concept of two separate storefronts.
-**Upgrade**: 
-- Add a **page context selector** (tabs or toggle) at the top of Homepage Sections: "Feed Page" vs "Shop Page"
-- Each page has its own set of hero slides, featured banners, category pills, and recommendation rules
-- New "Recommendation Engine" card per page context: configure what drives recommendations (e.g., Feed page = social signals like follows/likes; Shop page = purchase history/trending/categories)
-- Store separate configs in state for `feedPageConfig` and `shopPageConfig`
-- Also add page context awareness to Featured Products and Collection Manager (which page should a featured item appear on)
+**3. Customer Support / Helpdesk**
+No ticket system. When a customer has an issue, there's no way to track it. The "Contact Vendor" dialog sends a one-off message but doesn't create a trackable case.
+- New pages: `/support/tickets`, `/support/live` — ticket queue, priority/SLA, assignment to support reps, canned responses, live chat overview
 
-**Files**: `src/pages/admin/shop/HomepageSections.tsx`, `src/lib/mock-data-shop.ts`, `src/pages/admin/products/FeaturedProducts.tsx`, `src/pages/admin/shop/CollectionManager.tsx`
+**4. Returns & Reverse Logistics**
+Refunds exist but returns (physical product coming back) have no tracking. No return labels, no return status tracking, no restocking workflow.
+- New page: `/orders/returns` — return requests, return shipping tracking, restocking confirmation, condition assessment
 
----
-
-### 4. Category & Collection Product Assignment + Auto-Rules
-**Current**: "Assign Products" menu item exists but has no dialog/UI. No auto-categorization.
-**Upgrade**:
-- **Category Manager**: Add a product assignment dialog — shows all products with checkboxes, search, and bulk assign/unassign
-- **Auto-Categorization Rules**: New section on Category Manager — create rules like "Auto-add products where type = Electronics AND price < MWK 50,000 AND location = LOCAL". Rules have conditions (field, operator, value) and run on new product approval
-- **Collection Manager**: Same product assignment dialog for manual add/remove from collections
-
-**Files**: `src/pages/admin/shop/CategoryManager.tsx`, `src/pages/admin/shop/CollectionManager.tsx`, `src/lib/mock-data-products.ts`
+**5. Search & Discovery Analytics**
+No visibility into what customers are searching for, what returns zero results, trending searches, or search conversion rates. Amazon obsesses over this.
+- New page: `/analytics/search` — top searches, zero-result queries, search-to-purchase conversion, keyword trends
 
 ---
 
-### 5. Order Manager — Contact Vendor Button
-**Current**: "Contact Customer" and "Contact Vendor" buttons exist in the order detail dialog but are non-functional placeholders.
-**Upgrade**: Add a contact dialog that opens when clicking "Contact Vendor" — shows vendor name, email, a message textarea with pre-filled order context, and a "Send Message" button. Same for "Contact Customer". Add these contact actions to the table row actions too (not just the detail dialog).
+### Important Gaps (Medium Impact)
 
-**Files**: `src/pages/admin/orders/AllOrders.tsx`
+**6. Seller/Vendor Onboarding Workflow**
+"Create Vendor" is a single form. No multi-step onboarding with document verification, bank account validation, agreement signing, and training checklist.
+- Enhance `/vendors/create` with a step-by-step wizard and onboarding status tracker
 
----
+**7. Promotions & Campaign Manager**
+Gift Cards & Promos exist but there's no campaign system — flash sales, time-limited deals, banner campaigns with start/end dates, A/B tested promotional content.
+- New page: `/marketing/campaigns` — create campaigns with date ranges, target segments, promotional rules, and performance tracking
 
-### 6. Courier Networks Manager
-**Current**: Delivery Manager is DHL-only. Tracking dialog says "DHL Tracking Number".
-**Upgrade**:
-- New page: **Courier Networks** (`/orders/couriers`) — manage courier partners
-- CRUD for couriers: name, type (local/international), API endpoint, tracking URL pattern, status, coverage areas
-- Mock couriers: DHL, FedEx, Aramex, Local Courier MW, SpeedPost Malawi
-- Update Delivery Manager: when editing tracking, select courier from dropdown instead of assuming DHL
-- Add courier column to delivery table
-- Add sidebar nav item under Order Manager
+**8. Customer Lifetime Value & Cohort Analytics**
+Customer segments exist but there's no CLV calculation, cohort retention charts, churn prediction, or RFM (Recency/Frequency/Monetary) analysis.
+- New page: `/analytics/customers` — CLV scores, cohort charts, churn risk, RFM segmentation
 
-**Files**: New `src/pages/admin/orders/CourierNetworks.tsx`, edit `src/pages/admin/orders/DeliveryManager.tsx`, `src/lib/mock-data-orders.ts`, `src/components/admin/AdminSidebar.tsx`, `src/App.tsx`
+**9. Warehouse / Fulfillment Zones**
+Courier Networks exist but there's no concept of fulfillment zones, delivery time estimates by zone, or zone-based pricing rules.
+- New page: `/orders/zones` — create delivery zones on a map-style interface, set ETAs and pricing per zone
 
----
-
-### 7. Referral Program Manager
-**Current**: No referral features exist anywhere in the dashboard.
-**Upgrade**: New top-level sidebar section "Referral Manager" with sub-pages:
-- **Referral Programs** (`/referrals/programs`): Create custom referral programs — name, reward type (percentage discount, fixed amount, free shipping, cashback), reward for referrer, reward for referee, minimum order value, expiry, max uses, target segment. View all active/expired programs with stats (total referrals, conversions, revenue generated)
-- **Referral Links** (`/referrals/links`): Generate custom referral links per program, per customer, or per vendor. Track clicks, signups, and conversions per link. Bulk generate links for campaigns
-- **Referral Analytics** (`/referrals/analytics`): Dashboard with total referrals, conversion rate, revenue from referrals, top referrers table, referral chain visualization
-
-**Files**: New `src/pages/admin/referrals/ReferralPrograms.tsx`, `src/pages/admin/referrals/ReferralLinks.tsx`, `src/pages/admin/referrals/ReferralAnalytics.tsx`, new `src/lib/mock-data-referrals.ts`, edit `src/components/admin/AdminSidebar.tsx`, `src/components/admin/MobileBottomNav.tsx`, `src/App.tsx`
+**10. Bulk Operations & Import/Export**
+No CSV import/export for products, customers, or orders. No bulk edit capability. Amazon Seller Central has this everywhere.
+- Add bulk actions to existing pages: import/export buttons, bulk status change, bulk price update
 
 ---
 
-### 8. Advanced Automation Rules & API Integrations
-**Current**: Automation Rules has 8 hardcoded rules with only template editing. API Integrations has 10 hardcoded cards with only toggle.
-**Upgrade**:
-- **Automation Rules**: Add "Create New Rule" button with full form — name, trigger event (select from list + custom event name), conditions (e.g., "if order amount > X", "if customer segment = Y"), action type (in-app, push, email, webhook), message template with variable picker, delay (immediate, 1hr, 1d, 3d, custom), active toggle. Add delete rule. Add duplicate rule button
-- **API Integrations**: Add "Add Integration" button — name, type (REST API, Webhook, OAuth), base URL, API key field, headers, test endpoint button. Per integration: view request logs, edit config, test connection. Add webhook management: create outgoing webhooks with event subscriptions and endpoint URL
+### Nice-to-Have Gaps
 
-**Files**: `src/pages/admin/notifications/AutomationRules.tsx`, `src/pages/admin/settings/ApiIntegrations.tsx`
+**11. Platform Health & System Monitoring**
+No uptime monitoring, API response times, error rate tracking, or system health dashboard. The current "Alerts" card is static mock data.
+- New page: `/settings/health` — uptime, API latency, error rates, active users in real-time
+
+**12. Multi-Language / Localization Settings**
+No language management for a platform that might serve multiple regions.
+- Add to Platform Settings: supported languages, default language, translation management
+
+**13. Tax & Compliance Manager**
+No tax rules, VAT settings, or compliance documentation. Essential for real commerce.
+- New page: `/finance/tax` — tax rules by region, VAT rates, tax report generation
+
+**14. Vendor Communication Hub / Internal Messaging**
+Contact dialogs exist but there's no message history, no inbox, no announcement board for vendors.
+- New page: `/communications/inbox` — threaded messages, announcements, broadcast to vendor groups
 
 ---
 
-### Build Priority
-Build in this order across implementation messages:
-1. Items 1, 2, 5 (smaller scope, single-file changes)
-2. Items 3, 4 (shop manager restructuring)
-3. Item 6 (courier networks — new page + edits)
-4. Item 7 (referral system — 3 new pages + mock data)
-5. Item 8 (automation + API enhancements)
+### Recommended Build Order (4 phases)
+
+**Phase 1** — Inventory Management + Dispute Center + Support Tickets (most operationally critical)
+
+**Phase 2** — Returns Tracking + Campaign Manager + Bulk Operations (revenue and efficiency)
+
+**Phase 3** — Search Analytics + Customer Analytics + Fulfillment Zones (data-driven growth)
+
+**Phase 4** — System Health + Tax Manager + Vendor Onboarding Wizard + Messaging Hub (polish)
+
+---
 
 ### Technical Notes
-- All data remains mock — new mock data files for referrals and couriers
-- Same dark + lime-green theme throughout
-- All new pages follow existing component patterns (Card, Table, Dialog, Badge, toast)
-- New sidebar sections added to `navSections` array and mobile nav
+- All new pages follow existing patterns (Card, Table, Dialog, Badge, toast, recharts)
+- New mock data files for disputes, support tickets, inventory, campaigns, search analytics
+- Sidebar additions grouped logically: "Support Center", "Analytics", "Marketing" as new sections
+- Existing pages enhanced with bulk action toolbars and export buttons
 
