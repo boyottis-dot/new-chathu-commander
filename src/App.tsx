@@ -60,6 +60,10 @@ import InventoryManagement from "@/pages/admin/products/InventoryManagement";
 import DisputeCenter from "@/pages/admin/disputes/DisputeCenter";
 import SupportTickets from "@/pages/admin/support/SupportTickets";
 import LiveChat from "@/pages/admin/support/LiveChat";
+// Phase 2b imports
+import ReturnsManager from "@/pages/admin/orders/ReturnsManager";
+import CampaignManager from "@/pages/admin/marketing/CampaignManager";
+import BulkOperations from "@/pages/admin/bulk/BulkOperations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -99,6 +103,7 @@ const App = () => (
             {/* Order Manager */}
             <Route path="/orders" element={<AllOrders />} />
             <Route path="/orders/delivery" element={<DeliveryManager />} />
+            <Route path="/orders/returns" element={<ReturnsManager />} />
             <Route path="/orders/couriers" element={<CourierNetworks />} />
             {/* Financial Manager */}
             <Route path="/finance/revenue" element={<RevenueDashboard />} />
@@ -119,6 +124,10 @@ const App = () => (
             {/* Documents */}
             <Route path="/documents/files" element={<DocumentManager />} />
             <Route path="/documents/templates" element={<DocumentTemplates />} />
+            {/* Marketing */}
+            <Route path="/marketing/campaigns" element={<CampaignManager />} />
+            {/* Bulk Operations */}
+            <Route path="/bulk" element={<BulkOperations />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
             {/* Disputes */}

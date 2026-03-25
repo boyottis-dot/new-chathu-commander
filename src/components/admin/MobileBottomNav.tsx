@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Rss, Store, Users, Package,
   ShoppingCart, DollarSign, Bell, Settings, MoreHorizontal, RotateCcw, Star, Gift,
-  ClipboardList, FolderOpen, Briefcase, Calendar,
+  ClipboardList, FolderOpen, Briefcase, Calendar, Undo2, Megaphone, FileSpreadsheet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -30,6 +30,9 @@ const moreNav = [
   { icon: Bell, label: "Notifications", path: "/notifications/send" },
   { icon: Settings, label: "Settings", path: "/settings/platform" },
   { icon: Package, label: "Inventory", path: "/products/inventory" },
+  { icon: Undo2, label: "Returns", path: "/orders/returns" },
+  { icon: Megaphone, label: "Marketing", path: "/marketing/campaigns" },
+  { icon: FileSpreadsheet, label: "Bulk Ops", path: "/bulk" },
   { icon: Users, label: "Disputes", path: "/disputes" },
   { icon: Bell, label: "Support", path: "/support/tickets" },
 ];
