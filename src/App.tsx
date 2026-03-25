@@ -60,6 +60,10 @@ import InventoryManagement from "@/pages/admin/products/InventoryManagement";
 import DisputeCenter from "@/pages/admin/disputes/DisputeCenter";
 import SupportTickets from "@/pages/admin/support/SupportTickets";
 import LiveChat from "@/pages/admin/support/LiveChat";
+// Phase 2b imports
+import ReturnsManager from "@/pages/admin/orders/ReturnsManager";
+import CampaignManager from "@/pages/admin/marketing/CampaignManager";
+import BulkOperations from "@/pages/admin/bulk/BulkOperations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
