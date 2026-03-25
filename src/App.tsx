@@ -124,6 +124,10 @@ const App = () => (
             {/* Documents */}
             <Route path="/documents/files" element={<DocumentManager />} />
             <Route path="/documents/templates" element={<DocumentTemplates />} />
+            {/* Marketing */}
+            <Route path="/marketing/campaigns" element={<CampaignManager />} />
+            {/* Bulk Operations */}
+            <Route path="/bulk" element={<BulkOperations />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
             {/* Disputes */}
