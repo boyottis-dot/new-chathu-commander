@@ -85,6 +85,7 @@ const navSections: NavSection[] = [
     items: [
       { title: "All Orders", url: "/orders", icon: ShoppingCart },
       { title: "Delivery", url: "/orders/delivery", icon: Truck },
+      { title: "Returns", url: "/orders/returns", icon: Undo2 },
       { title: "Courier Networks", url: "/orders/couriers", icon: Network },
     ],
   },
