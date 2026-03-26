@@ -64,6 +64,10 @@ import LiveChat from "@/pages/admin/support/LiveChat";
 import ReturnsManager from "@/pages/admin/orders/ReturnsManager";
 import CampaignManager from "@/pages/admin/marketing/CampaignManager";
 import BulkOperations from "@/pages/admin/bulk/BulkOperations";
+// Phase 3 imports
+import SearchAnalytics from "@/pages/admin/analytics/SearchAnalytics";
+import CustomerAnalytics from "@/pages/admin/analytics/CustomerAnalytics";
+import FulfillmentZones from "@/pages/admin/orders/FulfillmentZones";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
