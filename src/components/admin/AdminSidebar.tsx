@@ -87,6 +87,7 @@ const navSections: NavSection[] = [
       { title: "Delivery", url: "/orders/delivery", icon: Truck },
       { title: "Returns", url: "/orders/returns", icon: Undo2 },
       { title: "Courier Networks", url: "/orders/couriers", icon: Network },
+      { title: "Fulfillment Zones", url: "/orders/zones", icon: MapPin },
     ],
   },
   {
