@@ -132,6 +132,11 @@ const App = () => (
             <Route path="/marketing/campaigns" element={<CampaignManager />} />
             {/* Bulk Operations */}
             <Route path="/bulk" element={<BulkOperations />} />
+            {/* Analytics */}
+            <Route path="/analytics/search" element={<SearchAnalytics />} />
+            <Route path="/analytics/customers" element={<CustomerAnalytics />} />
+            {/* Fulfillment Zones */}
+            <Route path="/orders/zones" element={<FulfillmentZones />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
             {/* Disputes */}
