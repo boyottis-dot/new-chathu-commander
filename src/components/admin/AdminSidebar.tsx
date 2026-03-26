@@ -145,6 +145,14 @@ const navSections: NavSection[] = [
     items: [{ title: "Import / Export", url: "/bulk", icon: FileSpreadsheet }],
   },
   {
+    title: "Analytics",
+    icon: BarChart3,
+    items: [
+      { title: "Search & Discovery", url: "/analytics/search", icon: Search },
+      { title: "Customer CLV", url: "/analytics/customers", icon: TrendingUp },
+    ],
+  },
+  {
     title: "Refund Manager",
     icon: RotateCcw,
     items: [{ title: "Refund Requests", url: "/refunds", icon: RotateCcw }],
