@@ -64,6 +64,10 @@ import LiveChat from "@/pages/admin/support/LiveChat";
 import ReturnsManager from "@/pages/admin/orders/ReturnsManager";
 import CampaignManager from "@/pages/admin/marketing/CampaignManager";
 import BulkOperations from "@/pages/admin/bulk/BulkOperations";
+// Phase 3 imports
+import SearchAnalytics from "@/pages/admin/analytics/SearchAnalytics";
+import CustomerAnalytics from "@/pages/admin/analytics/CustomerAnalytics";
+import FulfillmentZones from "@/pages/admin/orders/FulfillmentZones";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -128,6 +132,11 @@ const App = () => (
             <Route path="/marketing/campaigns" element={<CampaignManager />} />
             {/* Bulk Operations */}
             <Route path="/bulk" element={<BulkOperations />} />
+            {/* Analytics */}
+            <Route path="/analytics/search" element={<SearchAnalytics />} />
+            <Route path="/analytics/customers" element={<CustomerAnalytics />} />
+            {/* Fulfillment Zones */}
+            <Route path="/orders/zones" element={<FulfillmentZones />} />
             {/* Refund Manager */}
             <Route path="/refunds" element={<RefundManager />} />
             {/* Disputes */}

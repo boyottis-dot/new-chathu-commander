@@ -8,7 +8,7 @@ import {
   Briefcase, Building2, Crown, LayoutGrid, Calendar,
   DollarSign as Budget, Receipt, LineChart, FolderOpen, FileText as FileTemplate,
   PackageSearch, Scale, Headphones, MessageCircle,
-  Undo2, Megaphone, FileSpreadsheet,
+  Undo2, Megaphone, FileSpreadsheet, Search, MapPin,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -87,6 +87,7 @@ const navSections: NavSection[] = [
       { title: "Delivery", url: "/orders/delivery", icon: Truck },
       { title: "Returns", url: "/orders/returns", icon: Undo2 },
       { title: "Courier Networks", url: "/orders/couriers", icon: Network },
+      { title: "Fulfillment Zones", url: "/orders/zones", icon: MapPin },
     ],
   },
   {
@@ -142,6 +143,14 @@ const navSections: NavSection[] = [
     title: "Bulk Operations",
     icon: FileSpreadsheet,
     items: [{ title: "Import / Export", url: "/bulk", icon: FileSpreadsheet }],
+  },
+  {
+    title: "Analytics",
+    icon: BarChart3,
+    items: [
+      { title: "Search & Discovery", url: "/analytics/search", icon: Search },
+      { title: "Customer CLV", url: "/analytics/customers", icon: TrendingUp },
+    ],
   },
   {
     title: "Refund Manager",
