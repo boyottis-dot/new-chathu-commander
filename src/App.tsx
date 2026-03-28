@@ -68,6 +68,11 @@ import BulkOperations from "@/pages/admin/bulk/BulkOperations";
 import SearchAnalytics from "@/pages/admin/analytics/SearchAnalytics";
 import CustomerAnalytics from "@/pages/admin/analytics/CustomerAnalytics";
 import FulfillmentZones from "@/pages/admin/orders/FulfillmentZones";
+// Phase 4 imports
+import SystemHealth from "@/pages/admin/settings/SystemHealth";
+import TaxCompliance from "@/pages/admin/finance/TaxCompliance";
+import VendorOnboarding from "@/pages/admin/vendors/VendorOnboarding";
+import MessagingHub from "@/pages/admin/communications/MessagingHub";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -156,11 +161,18 @@ const App = () => (
             <Route path="/notifications/send" element={<SendNotification />} />
             <Route path="/notifications/history" element={<NotificationHistory />} />
             <Route path="/notifications/rules" element={<AutomationRules />} />
+            {/* Communications */}
+            <Route path="/communications/inbox" element={<MessagingHub />} />
             {/* Settings */}
             <Route path="/settings/platform" element={<PlatformSettings />} />
             <Route path="/settings/admins" element={<AdminAccounts />} />
             <Route path="/settings/integrations" element={<ApiIntegrations />} />
             <Route path="/settings/audit" element={<AuditLog />} />
+            <Route path="/settings/health" element={<SystemHealth />} />
+            {/* Finance - Tax */}
+            <Route path="/finance/tax" element={<TaxCompliance />} />
+            {/* Vendor Onboarding */}
+            <Route path="/vendors/onboarding" element={<VendorOnboarding />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
