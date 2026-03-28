@@ -9,6 +9,7 @@ import {
   DollarSign as Budget, Receipt, LineChart, FolderOpen, FileText as FileTemplate,
   PackageSearch, Scale, Headphones, MessageCircle,
   Undo2, Megaphone, FileSpreadsheet, Search, MapPin,
+  HeartPulse, Landmark, ClipboardCheck, Inbox,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -56,6 +57,7 @@ const navSections: NavSection[] = [
     items: [
       { title: "All Vendors", url: "/vendors", icon: Users },
       { title: "Create Vendor", url: "/vendors/create", icon: UserPlus },
+      { title: "Onboarding", url: "/vendors/onboarding", icon: ClipboardCheck },
       { title: "Performance", url: "/vendors/performance", icon: BarChart3 },
       { title: "Payouts", url: "/vendors/payouts", icon: Wallet },
     ],
@@ -97,6 +99,7 @@ const navSections: NavSection[] = [
       { title: "Revenue", url: "/finance/revenue", icon: DollarSign },
       { title: "Escrow", url: "/finance/escrow", icon: PiggyBank },
       { title: "Payouts", url: "/finance/payouts", icon: CreditCard },
+      { title: "Tax & Compliance", url: "/finance/tax", icon: Landmark },
     ],
   },
   {
@@ -198,6 +201,11 @@ const navSections: NavSection[] = [
     ],
   },
   {
+    title: "Communications",
+    icon: Inbox,
+    items: [{ title: "Messaging Hub", url: "/communications/inbox", icon: Inbox }],
+  },
+  {
     title: "Settings",
     icon: Settings,
     items: [
@@ -205,6 +213,7 @@ const navSections: NavSection[] = [
       { title: "Admin Accounts", url: "/settings/admins", icon: Shield },
       { title: "API & Integrations", url: "/settings/integrations", icon: Plug },
       { title: "Audit Log", url: "/settings/audit", icon: ClipboardList },
+      { title: "System Health", url: "/settings/health", icon: HeartPulse },
     ],
   },
 ];
